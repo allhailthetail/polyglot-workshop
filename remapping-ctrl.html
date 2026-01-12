@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2026-01-12 Mon 17:42 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>&lrm;</title>
+<meta name="author" content="Matthew Younger" />
+<meta name="generator" content="Org Mode" />
+<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/src/readtheorg_theme/css/htmlize.css"/>
+<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/src/readtheorg_theme/css/readtheorg.css"/>
+<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/src/readtheorg_theme/css/code-copy.css"/>
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/search.css"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/src/lib/js/jquery.stickytableheaders.min.js"></script>
+<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/src/readtheorg_theme/js/search.js"></script>
+<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/src/readtheorg_theme/js/code-copy.js"></script>
+</head>
+<body>
+<div id="content" class="content">
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org074c219">1. Emacs Pinky:</a>
+<ul>
+<li><a href="#org5ecdf1c">1.1. Arch</a></li>
+<li><a href="#orgea82124">1.2. Debian/Ubuntu</a></li>
+<li><a href="#org0320e4b">1.3. KDE and More generally</a></li>
+</ul>
+</li>
+<li><a href="#org2331b30">2. Personal Recommendation:</a></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org074c219" class="outline-2">
+<h2 id="org074c219"><span class="section-number-2">1.</span> Emacs Pinky:</h2>
+<div class="outline-text-2" id="text-1">
+<blockquote>
+<p>
+Because keyboards are designed around typing and not around our editors, odd issues like this can happen:
+CTRL in normal computing isn&rsquo;t used quite as often as it is when running emacs. As a result, repeated
+overextension of the pinkey finger can cause gnarly issues to arise with your hands. This little guide hopes to help anyone interested in Emacs to avoid months-long recovery of your hands (particularly the little finger)&#x2026;
+</p>
+
+<p>
+&#x2014;
+</p>
+
+<p>
+Unfortunately, remapping keys in Linux is  a bit of a chore and how to go about it &ldquo;depends&rdquo; on what flavor of Linux you like.
+</p>
+</blockquote>
+</div>
+<div id="outline-container-org5ecdf1c" class="outline-3">
+<h3 id="org5ecdf1c"><span class="section-number-3">1.1.</span> Arch</h3>
+<div class="outline-text-3" id="text-1-1">
+<ul class="org-ul">
+<li><a href="https://wiki.archlinux.org/title/Input_remap_utilities">Arch Wiki Link</a></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgea82124" class="outline-3">
+<h3 id="orgea82124"><span class="section-number-3">1.2.</span> Debian/Ubuntu</h3>
+<div class="outline-text-3" id="text-1-2">
+<ul class="org-ul">
+<li><a href="https://dev.to/tallesl/change-caps-lock-to-ctrl-3c4">Link to guide</a></li>
+</ul>
+<pre class="example" id="orgc4b6119">
+#/etc/default/keyboard
+
+# NOTE: Comment out rather than replace, in case you want to go back...
+
+# To swap Caps with ctrl:
+XKBOPTIONS="ctrl:swapcaps"
+
+# to change JUST CAPSLOCK (leaving ctrl)
+XKBOPTIONS="ctrl:nocaps"
+
+# Apply the configuration (run in shell)
+#sudo dpkg-reconfigure keyboard-configuration
+</pre>
+</div>
+</div>
+<div id="outline-container-org0320e4b" class="outline-3">
+<h3 id="org0320e4b"><span class="section-number-3">1.3.</span> KDE and More generally</h3>
+<div class="outline-text-3" id="text-1-3">
+<blockquote>
+<p>
+Often, built-in GUI settings has keyboard options which usually allow you to change these settings.
+</p>
+</blockquote>
+
+
+<div id="org013d0f0" class="figure">
+<p><img src="./img/kde-keyboard-settings.png" alt="kde-keyboard-settings.png" />
+</p>
+</div>
+
+<blockquote>
+<p>
+By the way, this is how I like to display images in Org mode. I find it exports nicely to HTML this way, and have html-style controls (align, width, etc) right there in the header&#x2026;
+</p>
+
+<p>
+Emacs can actually <i>view</i> images, so it&rsquo;s almost as easy to go, find the image, open&amp;view it, and save the link to it and paste here:
+</p>
+<ol class="org-ol">
+<li>Find/view the file <code>&lt;SPC&gt; .</code></li>
+<li>Save the location <code>&lt;SPC&gt; f y</code></li>
+<li>Change to previous buffer <code>&lt;SPC&gt; b p</code></li>
+<li><b>Yank</b> the URL (from normal mode) <code>p</code></li>
+<li>(Optionally) convert to relative path&#x2026; <code>C-l</code></li>
+<li>Add captions, formatting, etc?</li>
+</ol>
+</blockquote>
+</div>
+</div>
+</div>
+<div id="outline-container-org2331b30" class="outline-2">
+<h2 id="org2331b30"><span class="section-number-2">2.</span> Personal Recommendation:</h2>
+<div class="outline-text-2" id="text-2">
+<blockquote>
+<p>
+I highly recommend remapping <span class="underline">both</span> ESC and CAPSLOCK if you&rsquo;re using Doom (evil) mode.
+Train your other hand to use CTRL with some other finger?
+</p>
+</blockquote>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Matthew Younger</p>
+<p class="date">Created: 2026-01-12 Mon 17:42</p>
+</div>
+</body>
+</html>

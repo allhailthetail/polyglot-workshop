@@ -1,0 +1,802 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2026-01-12 Mon 17:49 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Polyglot Data Science Example</title>
+<meta name="author" content="Matthew Younger" />
+<meta name="generator" content="Org Mode" />
+<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/src/readtheorg_theme/css/htmlize.css"/>
+<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/src/readtheorg_theme/css/readtheorg.css"/>
+<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/src/readtheorg_theme/css/code-copy.css"/>
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/search.css"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/src/lib/js/jquery.stickytableheaders.min.js"></script>
+<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/src/readtheorg_theme/js/search.js"></script>
+<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/src/readtheorg_theme/js/code-copy.js"></script>
+</head>
+<body>
+<div id="content" class="content">
+<h1 class="title">Polyglot Data Science Example</h1>
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org499df6a">1. Relevant Org Header Arguments</a></li>
+<li><a href="#orge809f02">2. Dowloading the dataset with cURL:</a></li>
+<li><a href="#org88a418b">3. Environment Inspection</a></li>
+<li><a href="#orgaf37666">4. Data Wrangling in R</a>
+<ul>
+<li><a href="#orgb420ebe">4.1. Load and Clean</a></li>
+<li><a href="#orgbacabfb">4.2. Basic analysis:</a>
+<ul>
+<li><a href="#orgd722046">4.2.1. Coffee Intake vs Sleep<sub>Hours</sub></a></li>
+<li><a href="#org2c75002">4.2.2. BMI Range</a></li>
+<li><a href="#org093d76b">4.2.3. Considering other substances</a></li>
+<li><a href="#org131f263">4.2.4. Coffee Gender Gap?</a></li>
+</ul>
+</li>
+<li><a href="#org853844d">4.3. Export an improved Dataset</a></li>
+</ul>
+</li>
+<li><a href="#org747f6b9">5. Python Visualization</a>
+<ul>
+<li><a href="#org953f1ea">5.1. Handling Virtual Environments</a></li>
+<li><a href="#org3451ad1">5.2. Dynamic Plotting with Plotly</a></li>
+</ul>
+</li>
+<li><a href="#org7fd476a">6. Python Random Forest Model</a></li>
+<li><a href="#orgbf06fde">7. Generating a Report via typesetting</a></li>
+</ul>
+</div>
+</div>
+<p>
+I thought a Kaggle dataset could be a good example, since I don&rsquo;t have any background in medicine, I needed some filler.
+<a href="https://www.kaggle.com/datasets/uom190346a/global-coffee-health-dataset/code">Link to Data Source</a>
+</p>
+<div id="outline-container-org499df6a" class="outline-2">
+<h2 id="org499df6a"><span class="section-number-2">1.</span> Relevant Org Header Arguments</h2>
+<div class="outline-text-2" id="text-1">
+<pre class="example" id="org82080e1">
+#+PROPERTY: header-args:R :session *R-lang* :results output
+#+PROPERTY: header-args:python :session *py-lang* :results output
+#+PROPERTY: header-args:bash :results silent
+</pre>
+
+<p>
+Here, we&rsquo;re establishing (at the beginning of the <code>org</code> file) things we want to apply implicitly
+to the behavior of R, Python, and our Bash while the program runs. In general, bash output is going to vary from machine to machine, so let&rsquo;s not include that (<code>:results silent</code>). However, we&rsquo;ve decided that our R output and Python output, we&rsquo;d like to see (<code>:results output</code>).
+</p>
+
+<p>
+Properties can also be defined on a sub-tree level with drawers, which is particularly clean as the tasks grow in complexity:
+</p>
+<pre class="example" id="org5c771c9">
+:PROPERTIES:
+:header-args:    :cache yes
+:END:
+</pre>
+
+<p>
+Sometimes, it&rsquo;s better to define custom behavior per cell block, which is also possible, as we did when verifying the <a href="#orgc315ec5">R version</a>.
+</p>
+</div>
+</div>
+<div id="outline-container-orge809f02" class="outline-2">
+<h2 id="orge809f02"><span class="section-number-2">2.</span> Dowloading the dataset with cURL:</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+Since we&rsquo;ll be working with BASH here several times, let&rsquo;s just define for this entire level that the results should be output to code blocks:
+</p>
+<p>
+I found this interesting dataset on <a href="https://www.kaggle.com/datasets/uom190346a/global-coffee-health-dataset/data">Kaggle</a> and I though it might be relevant for medicine and as a demo.
+Their site conveniently gives commands to download it using cURL (again, Linux rules&#x2026;)
+</p>
+<div class="org-src-container">
+<pre class="src src-bash"><span style="color: #ECBE7B;">curl</span> -L -o global-coffee-health-dataset.zip<span style="color: #98be65;">\</span>
+  https://www.kaggle.com/api/v1/datasets/download/uom190346a/global-coffee-health-dataset
+</pre>
+</div>
+
+<p>
+How do I&#x2026;
+</p>
+<div class="org-src-container">
+<pre class="src src-bash">unzip --help
+</pre>
+</div>
+
+<p>
+I&rsquo;ve learned the hard way, it&rsquo;s best practice to VERIFY the data integrity before getting started&#x2026;
+</p>
+<div class="org-src-container">
+<pre class="src src-bash">unzip -t global-coffee-health-dataset.zip
+</pre>
+</div>
+
+<pre class="example">
+Archive:  global-coffee-health-dataset.zip
+    testing: synthetic_coffee_health_10000.csv   OK
+No errors detected in compressed data of global-coffee-health-dataset.zip.
+</pre>
+
+
+<p>
+Wonderful, there are no errors in the <code>.zip</code> file as far as <code>unzip</code> is concerned. Now, let&rsquo;s extract and rename&#x2026;
+</p>
+<div class="org-src-container">
+<pre class="src src-bash">unzip global-coffee-health-dataset.zip synthetic_coffee_health_10000.csv
+<span style="color: #ECBE7B;">mv</span> synthetic_coffee_health_10000.csv coffee.csv
+</pre>
+</div>
+
+<pre class="example">
+Archive:  global-coffee-health-dataset.zip
+  inflating: synthetic_coffee_health_10000.csv  
+</pre>
+</div>
+</div>
+<div id="outline-container-org88a418b" class="outline-2">
+<h2 id="org88a418b"><span class="section-number-2">3.</span> Environment Inspection</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+As is good practice, let&rsquo;s inspect our environment before beginning, verifying that versions of R, Python, and any other dependencies (i.e. the package containing the dataset) match up with the results of the example project. <code>Org mode</code> has our back:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-bash" id="orgc315ec5">R --version | head -n 1
+</pre>
+</div>
+
+<p>
+There are also some R dependencies that are necessary:
+</p>
+<pre class="example" id="org7d29c71">
+# packages can be installed from a list:
+install.packages(c("remotes", "tidyverse", "hrbrthemes", "extrafont"))
+
+# Handy tool for installing R packages (sometimes not on CRAN) directly from GitHub...
+remotes::install_git("https://codeberg.org/hrbrmstr/hrbrthemes.git")
+</pre>
+
+
+<p>
+It&rsquo;s also a good idea to make sure Emacs and Org are up to the task, since R isn&rsquo;t enabled as a Babel lang by default:
+</p>
+<div class="org-src-container">
+<pre class="src src-elisp">(<span style="color: #51afef;">defun</span> <span style="color: #c678dd;">check-ess-installed</span> ()
+  <span style="color: #83898d;">"Check if ESS is installed."</span>
+  (<span style="color: #51afef;">if</span> (<span style="color: #a9a1e1;">require</span> <span style="color: #51afef;">'</span><span style="color: #a9a1e1;">ess</span> nil <span style="color: #51afef;">'</span><span style="color: #ECBE7B;">noerror</span>)
+      (<span style="color: #a9a1e1;">message</span> <span style="color: #98be65;">"ESS is installed."</span>)
+    (<span style="color: #a9a1e1;">message</span> <span style="color: #98be65;">"ESS is not installed."</span>)))
+
+<span style="color: #5B6268;">;; </span><span style="color: #5B6268;">Call the function
+</span>(<span style="color: #c678dd;">check-ess-installed</span>)
+</pre>
+</div>
+
+<p>
+Let&rsquo;s also check the <code>Python</code> version:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-bash" id="org95e40d9">python --version
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgaf37666" class="outline-2">
+<h2 id="orgaf37666"><span class="section-number-2">4.</span> Data Wrangling in R</h2>
+<div class="outline-text-2" id="text-4">
+</div>
+<div id="outline-container-orgb420ebe" class="outline-3">
+<h3 id="orgb420ebe"><span class="section-number-3">4.1.</span> Load and Clean</h3>
+<div class="outline-text-3" id="text-4-1">
+<div class="org-src-container">
+<pre class="src src-R"><span style="color: #a9a1e1;">library</span>(tidyverse)
+
+read.csv(<span style="color: #98be65;">"coffee.csv"</span>) <span style="color: #a9a1e1;">-&gt;</span> df
+
+df <span style="color: #a9a1e1;">%&gt;%</span> str()
+</pre>
+</div>
+
+<pre class="example" id="org7712272">
+'data.frame':	10000 obs. of  16 variables:
+ $ ID                     : int  1 2 3 4 5 6 7 8 9 10 ...
+ $ Age                    : int  40 33 42 53 32 32 53 44 29 41 ...
+ $ Gender                 : chr  "Male" "Male" "Male" "Male" ...
+ $ Country                : chr  "Germany" "Germany" "Brazil" "Germany" ...
+ $ Coffee_Intake          : num  3.5 1 5.3 2.6 3.1 3.4 2.7 4.5 1.7 4 ...
+ $ Caffeine_mg            : num  328.1 94.1 503.7 249.2 298 ...
+ $ Sleep_Hours            : num  7.5 6.2 5.9 7.3 5.3 6.4 7.8 5.5 7.1 6.4 ...
+ $ Sleep_Quality          : chr  "Good" "Good" "Fair" "Good" ...
+ $ BMI                    : num  24.9 20 22.7 24.7 24.1 27 24.3 15.8 21.7 30.4 ...
+ $ Heart_Rate             : int  78 67 59 71 76 82 58 62 60 69 ...
+ $ Stress_Level           : chr  "Low" "Low" "Medium" "Low" ...
+ $ Physical_Activity_Hours: num  14.5 11 11.2 6.6 8.5 8.8 1 0.7 2.2 11.9 ...
+ $ Health_Issues          : chr  "None" "None" "Mild" "Mild" ...
+ $ Occupation             : chr  "Other" "Service" "Office" "Other" ...
+ $ Smoking                : int  0 0 0 0 0 0 1 1 1 0 ...
+ $ Alcohol_Consumption    : int  0 0 0 0 1 0 0 1 1 0 ...
+</pre>
+
+<p>
+This looks like a dataset that we could use to predict <code>Health_Issues</code> based on: <code>Age, Gender, Coffee_Intake, Caffeine_mg, Sleep_Hours, BMI, Heart_Rate, Stress_Level, Physical_Activity_Hours, Occupation, Smoking</code>.
+</p>
+
+<p>
+A few of these things seem like stuff that shouldn&rsquo;t matter (playing doctor here, but go with it&#x2026;) i.e. <code>Country</code>, <code>Sleep_Quality</code> (too subjective). So, let&rsquo;s drop those as part of the data cleaning.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-R">df <span style="color: #a9a1e1;">%&gt;%</span> select(!c(Country, Sleep_Quality)) <span style="color: #a9a1e1;">-&gt;</span> df
+</pre>
+</div>
+
+<p>
+It&rsquo;s also good to convert Smoking and Alcohol<sub>Consumption</sub> to factors rather than boolean (actually integers):
+We could&rsquo;ve used tryLogical on <code>read.csv</code> if they&rsquo;d have used F/T or FALSE, TRUE instead&#x2026; Plea to anyone creating dataframes&#x2026;
+</p>
+
+<div class="org-src-container">
+<pre class="src src-R" id="org2e2bc3b">df <span style="color: #a9a1e1;">&lt;-</span> df <span style="color: #a9a1e1;">%&gt;%</span> mutate(
+         Smoking = as.logical(Smoking),
+         Alcohol_Consumption = as.logical(Alcohol_Consumption)
+       )
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgbacabfb" class="outline-3">
+<h3 id="orgbacabfb"><span class="section-number-3">4.2.</span> Basic analysis:</h3>
+<div class="outline-text-3" id="text-4-2">
+<p>
+Honestly, I take advantage of split-screen mode and a REPL for this step, then I put code in src blocks later down below.
+</p>
+</div>
+<div id="outline-container-orgd722046" class="outline-4">
+<h4 id="orgd722046"><span class="section-number-4">4.2.1.</span> Coffee Intake vs Sleep<sub>Hours</sub></h4>
+<div class="outline-text-4" id="text-4-2-1">
+<p>
+First, the graphics need a place to live:
+</p>
+<div class="org-src-container">
+<pre class="src src-bash"><span style="color: #ECBE7B;">mkdir</span> output
+</pre>
+</div>
+
+<p>
+It looks like there&rsquo;s definitely some correlation here between how much coffee one drinks and how much sleep they get. &ldquo;Interesting&#x2026;&rdquo;
+</p>
+
+<div class="org-src-container">
+<pre class="src src-R"><span style="color: #a9a1e1;">library</span>(hrbrthemes) <span style="color: #5B6268;"># </span><span style="color: #5B6268;">For a clean typography-focused theme
+</span>
+df <span style="color: #a9a1e1;">%&gt;%</span>
+  group_by(Sleep_Hours) <span style="color: #a9a1e1;">%&gt;%</span>
+  summarise(mean_coffee = mean(Coffee_Intake)) <span style="color: #a9a1e1;">%&gt;%</span>
+  ggplot(aes(x = Sleep_Hours, y = mean_coffee)) +
+  <span style="color: #5B6268;"># </span><span style="color: #5B6268;">Use points and lines together for better readability
+</span>  geom_line(color = <span style="color: #98be65;">"#6F4E37"</span>, size = 1.2, alpha = 0.8) +
+  geom_point(color = <span style="color: #98be65;">"#6F4E37"</span>, size = 3) +
+  <span style="color: #5B6268;"># </span><span style="color: #5B6268;">Add a smoothing line to see the overall trend
+</span>  geom_smooth(method = <span style="color: #98be65;">"lm"</span>, color = <span style="color: #98be65;">"darkred"</span>, linetype = <span style="color: #98be65;">"dashed"</span>, se = <span style="color: #ECBE7B;">FALSE</span>) +
+  <span style="color: #5B6268;"># </span><span style="color: #5B6268;">Polish the labels and theme
+</span>  labs(
+    title = <span style="color: #98be65;">"Does Coffee Intake Affect Sleep Duration?"</span>,
+    subtitle = <span style="color: #98be65;">"Average cups of coffee vs. hours of sleep recorded"</span>,
+    x = <span style="color: #98be65;">"Sleep Duration (Hours)"</span>,
+    y = <span style="color: #98be65;">"Average Coffee Intake (Cups)"</span>,
+    caption = <span style="color: #98be65;">"Data source: Revised Coffee Health Dataset"</span>
+  ) +
+  <span style="color: #5B6268;">## </span><span style="color: #5B6268;">theme_ipsum() + # Or theme_minimal() if you don't have hrbrthemes
+</span>  theme_ipsum() +
+  theme(
+    plot.title = element_text(face = <span style="color: #98be65;">"bold"</span>, size = 16),
+    axis.title = element_text(size = 12)
+  )
+</pre>
+</div>
+
+
+<div id="org49b93fc" class="figure">
+<p><img src="output/coffee_vs_sleep.png" alt="coffee_vs_sleep.png" />
+</p>
+</div>
+
+<p>
+We definitely should save that, but let&rsquo;s mark that todo later. <code>C-c C-t t</code>
+</p>
+</div>
+</div>
+<div id="outline-container-org2c75002" class="outline-4">
+<h4 id="org2c75002"><span class="section-number-4">4.2.2.</span> BMI Range</h4>
+<div class="outline-text-4" id="text-4-2-2">
+<p>
+18.5 -&gt; 24.9 is considered healthy.
+</p>
+<div class="org-src-container">
+<pre class="src src-R">ggplot(df, aes(y = BMI, x = <span style="color: #98be65;">""</span>)) +
+  geom_boxplot(fill = <span style="color: #98be65;">"#6F4E37"</span>, color = <span style="color: #98be65;">"#3C2A21"</span>, alpha = 0.7, notch = <span style="color: #ECBE7B;">TRUE</span>) +
+  geom_jitter(color = <span style="color: #98be65;">"black"</span>, size = 0.5, alpha = 0.2, width = 0.1) +
+  labs(
+    title = <span style="color: #98be65;">"Distribution of BMI"</span>,
+    subtitle = <span style="color: #98be65;">"Analysis of 10,000 coffee consumers"</span>,
+    y = <span style="color: #98be65;">"Body Mass Index (BMI)"</span>,
+    x = <span style="color: #ECBE7B;">NULL</span>
+  ) +
+  theme_minimal() +
+  theme(plot.title = element_text(face = <span style="color: #98be65;">"bold"</span>))
+</pre>
+</div>
+
+<p>
+The boxplot shows there are outliers.  How many?
+</p>
+
+<div class="org-src-container">
+<pre class="src src-R">Q1 <span style="color: #a9a1e1;">&lt;-</span> quantile(df$BMI, .25)
+Q3 <span style="color: #a9a1e1;">&lt;-</span> quantile(df$BMI, .75)
+overwt <span style="color: #a9a1e1;">&lt;-</span> 24.9
+underwt <span style="color: #a9a1e1;">&lt;-</span> 18.5
+
+<span style="color: #5B6268;"># </span><span style="color: #5B6268;">Number of overweight outliers of 10k sample size
+</span>nrow(df[df$BMI &gt; overwt,])/10000
+
+<span style="color: #5B6268;"># </span><span style="color: #5B6268;">Number of underweight outliers of 10k sample size
+</span>nrow(df[df$BMI &lt; underwt,])/10000
+</pre>
+</div>
+
+<pre class="example">
+[1] 0.4064
+[1] 0.0819
+</pre>
+
+
+<p>
+Actually, this could be a handy factor to add to the data, i.e. <code>body_condition</code> low, ok, high.
+</p>
+<div class="org-src-container">
+<pre class="src src-R">df <span style="color: #a9a1e1;">%&gt;%</span> mutate(Body_Condition = factor(case_when(
+                BMI &lt; underwt ~<span style="color: #98be65;">"low"</span>,
+                BMI &gt;= underwt &amp; BMI &lt; overwt ~ <span style="color: #98be65;">"normal"</span>,
+                BMI &gt;= overwt ~ <span style="color: #98be65;">"high"</span>
+              ))) <span style="color: #a9a1e1;">-&gt;</span> df
+
+summary(df$Body_Condition)
+</pre>
+</div>
+
+<pre class="example">
+high    low normal 
+4172    819   5009
+</pre>
+
+
+<p>
+Interesting. Very nearly as many high-weight subjects as normal, very few low&#x2026;
+There should probably be a table of that for the final report.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-R">ggplot(df, aes(x = Body_Condition)) +
+  geom_bar(fill = c(<span style="color: #98be65;">"lightblue"</span>, <span style="color: #98be65;">"lightgreen"</span>, <span style="color: #98be65;">"coral"</span>), alpha = 0.8) +  <span style="color: #5B6268;"># </span><span style="color: #5B6268;">Custom colors for bars
+</span>  labs(title = <span style="color: #98be65;">"Distribution of Body Conditions"</span>,
+       x = <span style="color: #98be65;">"Body Condition"</span>,
+       y = <span style="color: #98be65;">"Count"</span>) +
+  theme_minimal(base_size = 15) +  <span style="color: #5B6268;"># </span><span style="color: #5B6268;">Base font size for readability
+</span>  theme(plot.title = element_text(hjust = 0.5, size = 20, face = <span style="color: #98be65;">"bold"</span>),  <span style="color: #5B6268;"># </span><span style="color: #5B6268;">Centered title
+</span>        plot.subtitle = element_text(hjust = 0.5, size = 14, face = <span style="color: #98be65;">"italic"</span>),
+        axis.title.x = element_text(size = 16),
+        axis.title.y = element_text(size = 16),
+        axis.text.x = element_text(size = 14),
+        axis.text.y = element_text(size = 14),
+        panel.grid.major.y = element_line(color = <span style="color: #98be65;">"grey"</span>, linetype = <span style="color: #98be65;">"dashed"</span>),  <span style="color: #5B6268;"># </span><span style="color: #5B6268;">Customize grid lines
+</span>        panel.grid.minor = element_blank()) +
+  geom_text(stat = <span style="color: #98be65;">'count'</span>, aes(label = ..count..), position = position_stack(vjust = 0.5), size = 5, color = <span style="color: #98be65;">"black"</span>)  <span style="color: #5B6268;"># </span><span style="color: #5B6268;">Add count labels</span>
+</pre>
+</div>
+
+
+<div id="org8364953" class="figure">
+<p><img src="output/body_conditions.png" alt="body_conditions.png" />
+</p>
+</div>
+
+<p>
+Graphs also show that body<sub>condition</sub> doesn&rsquo;t change the amount of coffee taken in. Somewhat interesting because I&rsquo;d think like other substances, heavier and lighter people need more/less. This is synthetic data, maybe we can cast doubt on it with this result?
+</p>
+
+<div class="org-src-container">
+<pre class="src src-R"><span style="color: #5B6268;"># </span><span style="color: #5B6268;">Espresso, Cool Taupe, Oat Milk
+</span>coffee_colors <span style="color: #a9a1e1;">&lt;-</span> c(<span style="color: #98be65;">"low"</span> = <span style="color: #98be65;">"#D9B99B"</span>, <span style="color: #98be65;">"normal"</span> = <span style="color: #98be65;">"#7D6B5D"</span>, <span style="color: #98be65;">"high"</span> = <span style="color: #98be65;">"#241611"</span>)
+
+ggplot(df, aes(x = Body_Condition, y = Coffee_Intake, fill = Body_Condition)) +
+  <span style="color: #5B6268;"># </span><span style="color: #5B6268;">Adds a "notched" boxplot to show confidence intervals of the median
+</span>  geom_boxplot(notch = <span style="color: #ECBE7B;">TRUE</span>, alpha = 0.7, color = <span style="color: #98be65;">"#241611"</span>, outlier.shape = <span style="color: #ECBE7B;">NA</span>) +
+  <span style="color: #5B6268;"># </span><span style="color: #5B6268;">Adds jittered points to show the actual distribution of 10k rows
+</span>  geom_jitter(width = 0.2, alpha = 0.1, size = 0.5, color = <span style="color: #98be65;">"#241611"</span>) +
+  scale_fill_manual(values = coffee_colors) +
+  labs(
+    title = <span style="color: #98be65;">"Coffee Consumption by Body Condition"</span>,
+    subtitle = <span style="color: #98be65;">"Comparing intake levels across self-reported health states"</span>,
+    x = <span style="color: #98be65;">"Body Condition"</span>,
+    y = <span style="color: #98be65;">"Daily Coffee Intake (Cups)"</span>
+  ) +
+  theme_minimal(base_size = 14) +
+  theme(
+    legend.position = <span style="color: #98be65;">"none"</span>,
+    plot.title = element_text(face = <span style="color: #98be65;">"bold"</span>, color = <span style="color: #98be65;">"#241611"</span>),
+    panel.grid.major.x = element_blank()
+  )
+</pre>
+</div>
+
+
+<div id="org2addd9f" class="figure">
+<p><img src="output/coffee_vs_body_cond.png" alt="coffee_vs_body_cond.png" />
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org093d76b" class="outline-4">
+<h4 id="org093d76b"><span class="section-number-4">4.2.3.</span> Considering other substances</h4>
+<div class="outline-text-4" id="text-4-2-3">
+<p>
+For both smoking and alcohol, there are fewer who do than don&rsquo;t. Good to know, because that&rsquo;d throw off our charts/analysis.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-R">prop.table(table(df$Smoking))
+prop.table(table(df$Alcohol_Consumption))
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-R"><span style="color: #a9a1e1;">library</span>(tidyverse)
+<span style="color: #a9a1e1;">library</span>(scales)
+
+df <span style="color: #a9a1e1;">%&gt;%</span>
+  <span style="color: #5B6268;"># </span><span style="color: #5B6268;">Select and clean up data
+</span>  select(Smoking, Alcohol_Consumption) <span style="color: #a9a1e1;">%&gt;%</span>
+  pivot_longer(everything(), names_to = <span style="color: #98be65;">"Metric"</span>, values_to = <span style="color: #98be65;">"Status"</span>) <span style="color: #a9a1e1;">%&gt;%</span>
+  mutate(
+    Metric = gsub(<span style="color: #98be65;">"_"</span>, <span style="color: #98be65;">" "</span>, Metric),
+    Status = if_else(Status == <span style="color: #ECBE7B;">TRUE</span>, <span style="color: #98be65;">"Yes"</span>, <span style="color: #98be65;">"No"</span>)
+  ) <span style="color: #a9a1e1;">%&gt;%</span>
+  <span style="color: #5B6268;"># </span><span style="color: #5B6268;">Calculate percentages for labels
+</span>  count(Metric, Status) <span style="color: #a9a1e1;">%&gt;%</span>
+  group_by(Metric) <span style="color: #a9a1e1;">%&gt;%</span>
+  mutate(pct = n / sum(n)) <span style="color: #a9a1e1;">%&gt;%</span>
+
+  <span style="color: #5B6268;"># </span><span style="color: #5B6268;">Plot
+</span>  ggplot(aes(x = Metric, y = pct, fill = Status)) +
+  geom_col(position = <span style="color: #98be65;">"fill"</span>, width = 0.7, color = <span style="color: #98be65;">"white"</span>, size = 0.5) +
+  <span style="color: #5B6268;"># </span><span style="color: #5B6268;">Add direct labels inside the bars
+</span>  geom_text(aes(label = percent(pct, accuracy = 0.1)),
+            position = position_stack(vjust = 0.5),
+            color = <span style="color: #98be65;">"white"</span>, fontface = <span style="color: #98be65;">"bold"</span>) +
+  scale_y_continuous(labels = percent) +
+  scale_fill_manual(values = c(<span style="color: #98be65;">"No"</span> = <span style="color: #98be65;">"#A67B5B"</span>, <span style="color: #98be65;">"Yes"</span> = <span style="color: #98be65;">"#3C2A21"</span>)) +
+  labs(
+    title = <span style="color: #98be65;">"Lifestyle Distribution: Smoking vs. Alcohol"</span>,
+    subtitle = <span style="color: #98be65;">"Relative proportions within the consumer population"</span>,
+    x = <span style="color: #ECBE7B;">NULL</span>, y = <span style="color: #98be65;">"Percentage of Participants"</span>,
+    fill = <span style="color: #98be65;">"Status:"</span>
+  ) +
+  theme_minimal(base_size = 14) +
+  theme(
+    panel.grid.major.x = element_blank(),
+    legend.position = <span style="color: #98be65;">"top"</span>,
+    plot.title = element_text(face = <span style="color: #98be65;">"bold"</span>)
+  )
+</pre>
+</div>
+
+
+<div id="org854f2f6" class="figure">
+<p><img src="output/smoking_alcohol_moasic.png" alt="smoking_alcohol_moasic.png" />
+</p>
+</div>
+
+
+<div class="org-src-container">
+<pre class="src src-R"><span style="color: #a9a1e1;">library</span>(ggplot2)
+
+ggplot(df, aes(x = Caffeine_mg, y = Heart_Rate)) +
+  <span style="color: #5B6268;"># </span><span style="color: #5B6268;">Add points with transparency to handle 10k rows
+</span>  geom_point(alpha = 0.2, color = <span style="color: #98be65;">"#6F4E37"</span>, size = 1) +
+  <span style="color: #5B6268;"># </span><span style="color: #5B6268;">Add a trend line
+</span>  geom_smooth(method = <span style="color: #98be65;">"lm"</span>, color = <span style="color: #98be65;">"#E44D2E"</span>, fill = <span style="color: #98be65;">"#FFD700"</span>, alpha = 0.2) +
+  labs(
+    title = <span style="color: #98be65;">"Caffeine Intake vs. Heart Rate"</span>,
+    subtitle = <span style="color: #98be65;">"Assessing the physiological impact of caffeine levels"</span>,
+    x = <span style="color: #98be65;">"Caffeine (mg)"</span>,
+    y = <span style="color: #98be65;">"Heart Rate (BPM)"</span>
+  ) +
+  theme_minimal() +
+  theme(plot.title = element_text(face = <span style="color: #98be65;">"bold"</span>))
+</pre>
+</div>
+
+
+<div id="org9503b4a" class="figure">
+<p><img src="output/heart_rate_caffeine.png" alt="heart_rate_caffeine.png" />
+</p>
+</div>
+
+<p>
+I think it&rsquo;s interesting there&rsquo;s no correlation here, because my experience is that caffeine causes an increase in heart rate.
+</p>
+</div>
+</div>
+<div id="outline-container-org131f263" class="outline-4">
+<h4 id="org131f263"><span class="section-number-4">4.2.4.</span> Coffee Gender Gap?</h4>
+<div class="outline-text-4" id="text-4-2-4">
+<p>
+Looks like gals like Coffee just as much as men.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-R"><span style="color: #a9a1e1;">library</span>(ggplot2)
+
+ggplot(df, aes(x = Coffee_Intake, fill = Gender)) +
+  geom_density(alpha = 0.5, color = <span style="color: #98be65;">"white"</span>) +
+  scale_fill_manual(values = c(<span style="color: #98be65;">"Male"</span> = <span style="color: #98be65;">"#241611"</span>, <span style="color: #98be65;">"Female"</span> = <span style="color: #98be65;">"#7D685D"</span>, <span style="color: #98be65;">"Other"</span> = <span style="color: #98be65;">"#D9B99B"</span>)) +
+  labs(
+    title = <span style="color: #98be65;">"Coffee Intake Distribution by Gender"</span>,
+    x = <span style="color: #98be65;">"Cups of Coffee per Day"</span>,
+    y = <span style="color: #98be65;">"Density"</span>,
+    fill = <span style="color: #98be65;">"Gender"</span>
+  ) +
+  theme_minimal() +
+  theme(legend.position = <span style="color: #98be65;">"top"</span>, plot.title = element_text(face = <span style="color: #98be65;">"bold"</span>))
+</pre>
+</div>
+
+
+<div id="org7d4788a" class="figure">
+<p><img src="output/coffee_gender_density.png" alt="coffee_gender_density.png" />
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org853844d" class="outline-3">
+<h3 id="org853844d"><span class="section-number-3">4.3.</span> Export an improved Dataset</h3>
+<div class="outline-text-3" id="text-4-3">
+<p>
+Now that we&rsquo;ve done basic EDA, we can export this (hopefully) improved CSV and move on over to Python to do some more dynamic stuff in a larger ecosystem.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-R">write.csv(df, file = <span style="color: #98be65;">"coffee_revised.csv"</span>)
+</pre>
+</div>
+
+<p>
+Verify&#x2026;
+</p>
+<div class="org-src-container">
+<pre class="src src-bash">head -n 3 coffee_revised.csv
+</pre>
+</div>
+
+<p>
+Look what got done with just a little bit of work in R:
+</p>
+<ol class="org-ol">
+<li>Removed some irrelevant rows</li>
+<li>Did some basic analysis, got some graphs</li>
+<li>Fixed the binary 0/1 classes into more friendly TRUE/FALSE categorical variables</li>
+<li>Added a new categorical row to simplify things</li>
+</ol>
+</div>
+</div>
+</div>
+<div id="outline-container-org747f6b9" class="outline-2">
+<h2 id="org747f6b9"><span class="section-number-2">5.</span> Python Visualization</h2>
+<div class="outline-text-2" id="text-5">
+</div>
+<div id="outline-container-org953f1ea" class="outline-3">
+<h3 id="org953f1ea"><span class="section-number-3">5.1.</span> Handling Virtual Environments</h3>
+<div class="outline-text-3" id="text-5-1">
+<p>
+A quick note on Python and virtual environments:
+For this example, I installed <code>python.pandas</code> using <code>apt</code> at the os-level, but supposedly it&rsquo;s very doable to point Babel/Org at a virtualenv version of Python (which is very commonly used, particularly in Git workflows):
+</p>
+<pre class="example" id="orgec5cdbf">
+Either specify it file-wide...
+#+PROPERTY: header-args:python :python "/path/to/your/venv/bin/python"
+
+Or for a particular header in a particular src block.
+#+begin_src python :python "/path/to/your/venv/bin/python" :results output
+#+end_src
+</pre>
+
+<p>
+On that note, I highly recommend checking out <a href="https://docs.astral.sh/uv/">uv</a>, which is incredible for working with Python venvs!
+</p>
+
+<div class="org-src-container">
+<pre class="src src-bash">uv init
+uv add plotly
+uv add pandas
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org3451ad1" class="outline-3">
+<h3 id="org3451ad1"><span class="section-number-3">5.2.</span> Dynamic Plotting with Plotly</h3>
+<div class="outline-text-3" id="text-5-2">
+<p>
+Like shown in the above <a href="#org953f1ea">notes</a>, I&rsquo;m now pointing Python at the virtualenv where I installed plotly and pandas.
+</p>
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #51afef;">import</span> plotly.express <span style="color: #51afef;">as</span> px
+<span style="color: #51afef;">import</span> pandas <span style="color: #51afef;">as</span> pd
+
+<span style="color: #5B6268;"># </span><span style="color: #5B6268;">load df:
+</span><span style="color: #dcaeea;">df</span> = pd.read_csv(<span style="color: #98be65;">"coffee_revised.csv"</span>)
+
+<span style="color: #dcaeea;">fig</span> = px.scatter(df,
+                 x=<span style="color: #98be65;">"Coffee_Intake"</span>,
+                 y=<span style="color: #98be65;">"Sleep_Hours"</span>,
+                 size=<span style="color: #98be65;">"BMI"</span>,
+                 color=<span style="color: #98be65;">"Health_Issues"</span>,
+                 hover_data=[<span style="color: #98be65;">"Age"</span>, <span style="color: #98be65;">"Smoking"</span>],
+                 title=<span style="color: #98be65;">"Interactive Analysis: Caffeine vs Hours of Sleep"</span>,
+                 template=<span style="color: #98be65;">"plotly_white"</span>)
+
+fig.write_html(<span style="color: #98be65;">"coffee_analysis.html"</span>)
+</pre>
+</div>
+
+<p>
+Now, there&rsquo;s a new <a href="coffee_analysis.html">HTML doc</a> in the parent directory with this very cool intractive graph&#x2026;
+It sure looks to me like sleep is a primary factor determining health issues, with a definite dividing line at around 6hrs of rest.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org7fd476a" class="outline-2">
+<h2 id="org7fd476a"><span class="section-number-2">6.</span> Python Random Forest Model</h2>
+<div class="outline-text-2" id="text-6">
+<div class="org-src-container">
+<pre class="src src-bash" id="org110e0e1">uv add scikit-learn
+uv add matplotlib
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #51afef;">import</span> pandas <span style="color: #51afef;">as</span> pd
+<span style="color: #51afef;">from</span> sklearn.ensemble <span style="color: #51afef;">import</span> RandomForestClassifier
+<span style="color: #51afef;">from</span> sklearn.model_selection <span style="color: #51afef;">import</span> train_test_split
+<span style="color: #51afef;">from</span> sklearn.preprocessing <span style="color: #51afef;">import</span> LabelEncoder
+<span style="color: #dcaeea;">df</span> = pd.read_csv(<span style="color: #98be65;">"coffee_revised.csv"</span>)
+
+<span style="color: #5B6268;"># </span><span style="color: #5B6268;">0. Drop rows with missing target values first
+</span><span style="color: #dcaeea;">df</span> = df.dropna(subset=[<span style="color: #98be65;">'Health_Issues'</span>])
+
+<span style="color: #5B6268;"># </span><span style="color: #5B6268;">1. Prep data: Convert strings to numbers
+</span><span style="color: #dcaeea;">le</span> = LabelEncoder()
+<span style="color: #dcaeea;">df</span>[<span style="color: #98be65;">'Gender'</span>] = le.fit_transform(df[<span style="color: #98be65;">'Gender'</span>])
+<span style="color: #dcaeea;">df</span>[<span style="color: #98be65;">'Occupation'</span>] = le.fit_transform(df[<span style="color: #98be65;">'Occupation'</span>])
+<span style="color: #dcaeea;">df</span>[<span style="color: #98be65;">'Body_Condition'</span>] = le.fit_transform(df[<span style="color: #98be65;">'Body_Condition'</span>])
+
+<span style="color: #5B6268;"># </span><span style="color: #5B6268;">2. Define Features (X) and Target (y)
+</span><span style="color: #dcaeea;">X</span> = df[[<span style="color: #98be65;">'Age'</span>, <span style="color: #98be65;">'Coffee_Intake'</span>, <span style="color: #98be65;">'Caffeine_mg'</span>, <span style="color: #98be65;">'Sleep_Hours'</span>, <span style="color: #98be65;">'BMI'</span>, <span style="color: #98be65;">'Heart_Rate'</span>]]
+<span style="color: #dcaeea;">X</span> = X.fillna(X.median())
+<span style="color: #dcaeea;">y</span> = df[<span style="color: #98be65;">'Health_Issues'</span>]
+
+<span style="color: #5B6268;"># </span><span style="color: #5B6268;">3. Split and Train
+</span><span style="color: #dcaeea;">X_train</span>, <span style="color: #dcaeea;">X_test</span>, <span style="color: #dcaeea;">y_train</span>, <span style="color: #dcaeea;">y_test</span> = train_test_split(X, y, test_size=0.2, random_state=42)
+
+<span style="color: #dcaeea;">model</span> = RandomForestClassifier(n_estimators=100)
+model.fit(X_train, y_train)
+
+
+<span style="color: #c678dd;">print</span>(f<span style="color: #98be65;">"Accuracy: </span>{model.score(X_test, y_test):.2f}<span style="color: #98be65;">"</span>)
+</pre>
+</div>
+
+<pre class="example">
+Accuracy: 1.00
+</pre>
+
+
+<p>
+🎉 We developed an amazingly accurate model&#x2026; Or, maybe not.
+</p>
+
+<p>
+Let&rsquo;s get a classification report:
+</p>
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #5B6268;"># </span><span style="color: #5B6268;">1. Get a report on the ?importance? of each feature to the model:
+</span><span style="color: #51afef;">from</span> sklearn.metrics <span style="color: #51afef;">import</span> classification_report
+<span style="color: #c678dd;">print</span>(classification_report(y_test, model.predict(X_test)))
+</pre>
+</div>
+
+<pre class="example">
+              precision    recall  f1-score   support
+
+        Mild       1.00      1.00      1.00       720
+    Moderate       0.99      0.97      0.98        88
+      Severe       1.00      1.00      1.00         4
+
+    accuracy                           1.00       812
+   macro avg       0.99      0.99      0.99       812
+weighted avg       1.00      1.00      1.00       812
+</pre>
+
+
+<p>
+More fishy numbers&#x2026; It&rsquo;s perfectly predicting all three cases. <code>F1</code> harmonic mean score is also perfct&#x2026;
+Under Support, there aren&rsquo;t enough severe cases to be statistically significant, so how is it predicting 100% of those correctly?
+Likely, there&rsquo;s an if/then correlation between sleeep, BMI, and age that it&rsquo;s picking up on. NOT coffee.
+</p>
+
+<p>
+So, drink on and get some sleep&#x2026;
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python">
+<span style="color: #5B6268;"># </span><span style="color: #5B6268;">2. See which feature is "cheating"
+</span><span style="color: #51afef;">import</span> pandas <span style="color: #51afef;">as</span> pd
+<span style="color: #51afef;">import</span> matplotlib.pyplot <span style="color: #51afef;">as</span> plt
+
+<span style="color: #dcaeea;">feat_importances</span> = pd.Series(model.feature_importances_, index=X.columns)
+feat_importances.nlargest(10).plot(kind=<span style="color: #98be65;">'barh'</span>)
+plt.show()
+</pre>
+</div>
+
+<p width="50%" align="right">
+<a href="file:///home/matthew/Desktop/workshop-presentation/img/feature_importances.png" width="50%" align="right">fig: feature importances</a>
+</p>
+</div>
+</div>
+<div id="outline-container-orgbf06fde" class="outline-2">
+<h2 id="orgbf06fde"><span class="section-number-2">7.</span> Generating a Report via typesetting</h2>
+<div class="outline-text-2" id="text-7">
+<p>
+Link: <a href="report.typ">report</a>
+Link: <a href="bibliography.bib">bibliography</a>
+</p>
+
+<p>
+Once again, Babel is useful here, but it&rsquo;s just a one-liner, so honestly it could&rsquo;ve been done elsewhere.
+This is mostly an example to give ideas for other ways to use it. The same can be done with TeX.
+</p>
+<div class="org-src-container">
+<pre class="src src-bash">typst compile report.typ
+</pre>
+</div>
+
+<p>
+It can even be used for viewing PDFs, if you like:
+Link <a href="report.pdf">PDF</a>
+</p>
+
+<p>
+Emphasis that this is just an example, not anything I&rsquo;ve proofread or plan to do anything with.
+</p>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Matthew Younger</p>
+<p class="date">Created: 2026-01-12 Mon 17:49</p>
+</div>
+</body>
+</html>

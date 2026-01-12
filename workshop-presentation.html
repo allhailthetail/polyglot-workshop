@@ -1,0 +1,921 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2026-01-12 Mon 17:49 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>&lrm;</title>
+<meta name="author" content="Matthew Younger" />
+<meta name="generator" content="Org Mode" />
+<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/src/readtheorg_theme/css/htmlize.css"/>
+<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/src/readtheorg_theme/css/readtheorg.css"/>
+<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/src/readtheorg_theme/css/code-copy.css"/>
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/search.css"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/src/lib/js/jquery.stickytableheaders.min.js"></script>
+<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/src/readtheorg_theme/js/search.js"></script>
+<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/src/readtheorg_theme/js/code-copy.js"></script>
+</head>
+<body>
+<div id="content" class="content">
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#orgc3e7381">1. Why use FOSS?</a></li>
+<li><a href="#org895226b">2. What is Emacs&#x2026; Really?</a></li>
+<li><a href="#orgc1ce55b">3. Why is Emacs unpopular?</a></li>
+<li><a href="#org1240e99">4. Why (not) Linux?</a>
+<ul>
+<li><a href="#orga80ad50">4.1. Practical examples</a>
+<ul>
+<li><a href="#orgacbae56">4.1.1. Package Management</a></li>
+<li><a href="#orgc8392eb">4.1.2. Automating/notetaking of complex tasks</a></li>
+<li><a href="#org7b42293">4.1.3. Configure the working directory for a project:</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org4a3d78e">5. Basic emacs</a>
+<ul>
+<li><a href="#orga57d6f4">5.1. Day 1 plan (What I wish I&rsquo;d have known)</a></li>
+<li><a href="#orgb73e454">5.2. Learning the terminology</a>
+<ul>
+<li><a href="#orgce91732">5.2.1. Theory of Movement</a></li>
+<li><a href="#orgf398814">5.2.2. Modes</a></li>
+<li><a href="#org4590bcc">5.2.3. Copying/pasting text</a></li>
+<li><a href="#org02b7642">5.2.4. Moving around</a></li>
+</ul>
+</li>
+<li><a href="#org55244b0">5.3. Much-needed terminal upgrade</a></li>
+<li><a href="#org2325d8d">5.4. Doom Emacs</a></li>
+<li><a href="#orgcb25fce">5.5. Links to More Tips</a></li>
+</ul>
+</li>
+<li><a href="#orgec0a051">6. Advanced Tools</a></li>
+<li><a href="#org3d0cbdd">7. Practical Intro to Elisp</a>
+<ul>
+<li><a href="#org761198c">7.1. Change to a light theme:</a></li>
+<li><a href="#orgf988a76">7.2. Enlarge text:</a></li>
+<li><a href="#orgb726a22">7.3. Putting it together into a function:</a></li>
+</ul>
+</li>
+<li><a href="#org88bd744">8. Org Mode</a>
+<ul>
+<li><a href="#org6771e5d">8.1. What is it?</a></li>
+<li><a href="#orgd254a86">8.2. Polyglot (literate) Programming</a></li>
+<li><a href="#org97ee865">8.3. Sharing with others (exporting)</a>
+<ul>
+<li><a href="#orgf5a508f">8.3.1. Exporting to HTML (best)</a></li>
+<li><a href="#orgf668419">8.3.2. Ox-exporter</a></li>
+</ul>
+</li>
+<li><a href="#orga3208d8">8.4. Babel</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgc3e7381" class="outline-2">
+<h2 id="orgc3e7381"><span class="section-number-2">1.</span> Why use FOSS?</h2>
+<div class="outline-text-2" id="text-1">
+<ul class="org-ul">
+<li>Avoid proprietary &ldquo;black box&rdquo; tools.
+Transparency</li>
+<li>Power of Plaintext over proprietary tools
+Accessible long-term, available to more users, no lock-in.</li>
+<li>Everything in one place
+<ol class="org-ol">
+<li>Editor</li>
+<li>File browser/manager</li>
+<li>Programming notebooks</li>
+<li>Markdown, TeX docs</li>
+<li>Remote file editing for my server via TRAMP</li>
+<li>To-Do lists, calendar</li>
+<li>Easy exportability of files to .html, .pdf, etc.</li>
+</ol></li>
+<li>Hardware longevity
+Almost everyone has old PC&rsquo;s sitting around, which are great for Linux.
+You&rsquo;ll be surprised how well it runs on so little vs proprietary stuff.
+My PC is 5+ years old, runs great on RPi&rsquo;s also.</li>
+<li>Malleable software
+Modify to your heart&rsquo;s content or build your own.
+<code>transform what you do into a craft...</code></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org895226b" class="outline-2">
+<h2 id="org895226b"><span class="section-number-2">2.</span> What is Emacs&#x2026; Really?</h2>
+<div class="outline-text-2" id="text-2">
+<blockquote>
+<p>
+&ldquo;&#x2026; A magpie&rsquo;s nest of shiny things&#x2026;&rdquo;
+</p>
+<ul class="org-ul">
+<li>Mastering Emacs</li>
+</ul>
+
+<p>
+&ldquo;&#x2026; Thermonuclear word processor&rdquo;
+</p>
+<ul class="org-ul">
+<li>Neal Stephenson</li>
+</ul>
+</blockquote>
+<ul class="org-ul">
+<li>Primarily an interpreter for the <code>elisp</code> Language (5% C code, 95% eLisp code)</li>
+<li><code>Local and Remote File Editor</code></li>
+<li><code>Built-in Shell/Terminal</code></li>
+<li><code>Org</code> to-do, agenda, project planner, note-taking, programming</li>
+<li><code>Magit for Git management</code></li>
+<li>Gnu Hyperbole reference package</li>
+<li>Symbolic calculator capable of all manner of mathematical calculation</li>
+<li>Music player &amp; EPUB reader</li>
+<li>EGlot LSP integration for code completion, linting</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgc1ce55b" class="outline-2">
+<h2 id="orgc1ce55b"><span class="section-number-2">3.</span> Why is Emacs unpopular?</h2>
+<div class="outline-text-2" id="text-3">
+<ul class="org-ul">
+<li>Poor support for Windows
+<ul class="org-ul">
+<li>While it installs fine, most tooling for emacs fails to run (Mastering Emacs).
+i.e. fine for only the basics, maybe enough to get a taste for it&#x2026;</li>
+</ul></li>
+<li>High barrier to entry
+<ul class="org-ul">
+<li>Presupposes Linux user</li>
+</ul></li>
+<li>Low-usability for new users</li>
+<li>By default is ugly (agreed)</li>
+<li><p>
+elisp
+</p>
+<blockquote>
+<p>
+&ldquo;Emacs is 95% elisp and 5% C Code&#x2026;&rdquo;
+</p>
+<ul class="org-ul">
+<li>Mickey Peterson <span class="underline">Mastering Emacs</span>.</li>
+</ul>
+
+<hr />
+<p>
+In other words, &ldquo;Full disclosure, leveraging emacs <span class="underline">requires</span> you to learn at least some elisp&#x2026;&rdquo;
+</p>
+</blockquote></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org1240e99" class="outline-2">
+<h2 id="org1240e99"><span class="section-number-2">4.</span> Why (not) Linux?</h2>
+<div class="outline-text-2" id="text-4">
+<ul class="org-ul">
+<li>Customizability
+<span class="underline">You&rsquo;re in total, absolute control in profound ways&#x2026;</span></li>
+<li>Vastness of scientific libraries and applications
+<ul class="org-ul">
+<li>R, Python, Octave, Sympy, entire distros specifically for your needs. (i.e. Skywave Linux)</li>
+</ul></li>
+<li>Hardware compatibility and helpful resources have never been as good as they are now.</li>
+</ul>
+</div>
+<div id="outline-container-orga80ad50" class="outline-3">
+<h3 id="orga80ad50"><span class="section-number-3">4.1.</span> Practical examples</h3>
+<div class="outline-text-3" id="text-4-1">
+</div>
+<div id="outline-container-orgacbae56" class="outline-4">
+<h4 id="orgacbae56"><span class="section-number-4">4.1.1.</span> Package Management</h4>
+<div class="outline-text-4" id="text-4-1-1">
+<div class="org-src-container">
+<pre class="src src-bash">apt show emacs | <span style="color: #ECBE7B;">grep</span> Version
+</pre>
+</div>
+
+<pre class="example" id="org58c68fc">
+sudo apt install r-base
+</pre>
+
+<blockquote>
+<p>
+All of the instructions for <i>how</i> to do a particular task can be laid out cleanly in your documentation, as so&#x2026;
+</p>
+</blockquote>
+</div>
+</div>
+<div id="outline-container-orgc8392eb" class="outline-4">
+<h4 id="orgc8392eb"><span class="section-number-4">4.1.2.</span> Automating/notetaking of complex tasks</h4>
+<div class="outline-text-4" id="text-4-1-2">
+<blockquote>
+<p>
+Following the DRY (don&rsquo;t repeat yourself) methodology:
+it&rsquo;s best to automate routine things that are done a lot. I spent a lot of time running and re-running a series of tasks
+to check and re-check my results.
+</p>
+
+<p>
+Maybe there&rsquo;s a routine that we want to run a lot that&rsquo;d sure be handy to have documented along with our project?
+</p>
+
+<p>
+&#x2014;
+</p>
+
+<p>
+Here, org babel and tangle (with permission options) can be used to send scripts straight to a user&rsquo;s directory.
+Potentially very handy if you&rsquo;re on a team and the one responsible for documention how to do compelx tasks&#x2026;
+</p>
+</blockquote>
+
+<div class="org-src-container">
+<pre class="src src-bash"><span style="color: #5B6268;">#</span><span style="color: #5B6268;">!/bin/</span><span style="color: #51afef;">zsh</span><span style="color: #5B6268;">
+</span><span style="color: #ECBE7B;">echo</span> -e <span style="color: #98be65;">"This is my handy bash...\n\n"</span>
+<span style="color: #ECBE7B;">ls</span> -lhtr ~
+<span style="color: #ECBE7B;">echo</span> -e <span style="color: #98be65;">"\n\nI listed what's in your home dir..."</span>
+</pre>
+</div>
+
+<p>
+<a href="https://orgmode.org/manual/Extracting-Source-Code.html">Link to Org tangle documentation</a>
+</p>
+
+<blockquote>
+<p>
+<code>IDEA:</code>
+</p>
+
+<p>
+Scripts are wonderful, but they can get cumbersome and clumsy if they&rsquo;re not documented. A setup like this ensures
+your scripts are well-documented, yet the context for what it does doesn&rsquo;t <i>need</i> to spill over into the script itself&#x2026;
+</p>
+</blockquote>
+</div>
+</div>
+<div id="outline-container-org7b42293" class="outline-4">
+<h4 id="org7b42293"><span class="section-number-4">4.1.3.</span> Configure the working directory for a project:</h4>
+<div class="outline-text-4" id="text-4-1-3">
+<pre class="example" id="orgc8d17db">
+  mkdir -p plots/general                          # to store plots...
+  mkdir -p plots/waveforms/{initial,denoised}     # to store initial waveforms
+  mkdir -p plots/waveforms/anf                    # .. for notch filtered audio
+  mkdir -p plots/spectrograms/{initial,denoised}  # to store initial spectrograms
+  mkdir -p plots/spectrograms/anf                 # .. for anf files
+  mkdir -p R                                      # to store tangled functions:
+  mkdir -p csv/                                   # to store generated CSVs.
+  mkdir -p out/{anf,bworth}                       # to store generated wavs
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org4a3d78e" class="outline-2">
+<h2 id="org4a3d78e"><span class="section-number-2">5.</span> Basic emacs</h2>
+<div class="outline-text-2" id="text-5">
+</div>
+<div id="outline-container-orga57d6f4" class="outline-3">
+<h3 id="orga57d6f4"><span class="section-number-3">5.1.</span> Day 1 plan (What I wish I&rsquo;d have known)</h3>
+<div class="outline-text-3" id="text-5-1">
+<p>
+&ldquo;Learn how to help yourself.&rdquo;
+</p>
+<blockquote>
+<p>
+&ldquo;Self-documenting means that at any time you can use special commands, known as help commands, to find out what your options are, or to find out what any command does, or to find all the commands that pertain to a given topic.&rdquo;
+</p>
+<ul class="org-ul">
+<li>Emacs Docs</li>
+</ul>
+
+<p>
+You&rsquo;ll spend several days/weeks learning to navigate and remember where things are by using <code>C-h</code>&#x2026;
+As you use it, you&rsquo;ll learn where the <i>things you use and depend on</i> are. (I don&rsquo;t think anyone knows it all&#x2026;)
+This underscores the importance of first learning where to find what you need. Remembering it will come automatically in time.
+</p>
+
+<p>
+Also&#x2026; <code>&lt;SPC&gt; h-b-b</code> to discover all the current bindings (for wherever you are)
+</p>
+</blockquote>
+</div>
+</div>
+<div id="outline-container-orgb73e454" class="outline-3">
+<h3 id="orgb73e454"><span class="section-number-3">5.2.</span> Learning the terminology</h3>
+<div class="outline-text-3" id="text-5-2">
+</div>
+<div id="outline-container-orgce91732" class="outline-4">
+<h4 id="orgce91732"><span class="section-number-4">5.2.1.</span> Theory of Movement</h4>
+<div class="outline-text-4" id="text-5-2-1">
+<ol class="org-ol">
+<li>Frame (windows)
+<ul class="org-ul">
+<li><p>
+Window (frames)
+</p>
+<blockquote>
+<p>
+Splitting windows:
+Horizontally: <code>&lt;SPC&gt;-w-v</code>
+Vertically: <code>&lt;SPC-w-s</code>
+</p>
+
+<p>
+TIP: Most of moving around <i>between</i> windows is the same as normal VIM move commands, simply prefixed with a <code>&lt;SPC&gt;-w</code> for window commands.
+i.e.
+Move cursor up one window
+<code>&lt;SPC&gt;-w-k</code>
+Move cursor down one window
+<code>&lt;SPC&gt;-w-j</code>
+</p>
+</blockquote></li>
+</ul></li>
+<li>Workspaces <code>&lt;SPC&gt; &lt;TAB&gt;</code>
+<ul class="org-ul">
+<li>Potentially <span class="underline">more</span> useful than frames is workspaces. Simply teleport over to your other tasks&#x2026;</li>
+</ul></li>
+</ol>
+</div>
+</div>
+<div id="outline-container-orgf398814" class="outline-4">
+<h4 id="orgf398814"><span class="section-number-4">5.2.2.</span> Modes</h4>
+<div class="outline-text-4" id="text-5-2-2">
+<ol class="org-ol">
+<li>Major mode - behavior (i.e. Org, editing a .py file, etc)</li>
+<li>Minor mode - add-ons (spell-check, formatting, etc)
+<ul class="org-ul">
+<li>Particularly useful, I like to turn on spellcheck <i>lastly,</i> after I&rsquo;ve done the bulk of my writing.
+I consider this a feature!</li>
+</ul></li>
+</ol>
+</div>
+</div>
+<div id="outline-container-org4590bcc" class="outline-4">
+<h4 id="org4590bcc"><span class="section-number-4">5.2.3.</span> Copying/pasting text</h4>
+<div class="outline-text-4" id="text-5-2-3">
+<blockquote>
+<p>
+Emacs gives you this wonderful revolving door called the <i>kill ring</i>, which keeps (for the session) a continual record of what you copied (inside emacs).
+Text you remove by &ldquo;killing&rdquo; it isn&rsquo;t truly gone, it gets <span class="underline">moved</span> to the kill ring and can be found handily searched at any time:
+=&lt;
+</p>
+</blockquote>
+<ol class="org-ol">
+<li>&ldquo;Killing&rdquo; text
+<ul class="org-ul">
+<li>&ldquo;Copy&rdquo;/save to kill ring <code>M-w</code></li>
+<li>Save <span class="underline">entire line</span> to kill ring <code>&lt;deleteline&gt;</code>
+(CTRL+SHIFT+BACKSPACE)</li>
+<li>&ldquo;Cut&rdquo;/kill region <code>C-wxy</code></li>
+<li>Kill region to end of line <code>D</code></li>
+</ul></li>
+</ol>
+</div>
+</div>
+<div id="outline-container-org02b7642" class="outline-4">
+<h4 id="org02b7642"><span class="section-number-4">5.2.4.</span> Moving around</h4>
+<div class="outline-text-4" id="text-5-2-4">
+<ul class="org-ul">
+<li><p>
+Evil Snipe
+Snipe and Vim shortcuts are amazingly efficient&#x2026;
+</p>
+<blockquote>
+<p>
+(From move mode, navigate to the line you want to edit on&#x2026;)
+To match on two characters FORWARD: <code>s {type 2 chars to match}</code>
+(subsequent s&rsquo;s move foreward&#x2026;)
+</p>
+
+<p>
+Example:
+I&rsquo;ll have some Spam Eggs Spam
+</p>
+
+
+<p>
+To match on two characters REVERSE: <code>S {type 2 chars to match}</code>
+Spam Eggs Spam some have I&rsquo;ll
+</p>
+
+<p>
+(Caveat: subsequent REVERSE serches are done with <code>s</code>, not <code>S</code>)
+</p>
+</blockquote></li>
+
+<li><p>
+Learning VIM bindings:
+</p>
+<blockquote>
+<p>
+To move up, <code>k</code>
+To move down, <code>j</code>
+To move right, <code>l</code>
+To move left, <code>h</code>
+</p>
+
+<p>
+Foreward one word <code>w</code>
+Backward one word <code>b</code>
+(also works with delete&#x2026; <code>d</code>)
+</p>
+
+<p>
+Comment: the keybindings don&rsquo;t make sense as abbreviations, but by where they&rsquo;re at on the keyboard&#x2026;
+</p>
+
+<p>
+Replacement mode (from movement mode) <code>R</code>
+</p>
+
+<p>
+Example:
+You&rsquo;ll never replace me!
+</p>
+
+<p>
+Backwards and forwards by a sentence&#x2026;
+<code>(</code> or <code>)</code>
+I am a sentence. I&rsquo;m another. I&rsquo;m the final sentence. But wait, there&rsquo;s more&#x2026;
+</p>
+
+<p>
+Coincidentally, these also work nicely with <code>d</code> for delete
+i.e. <code>d(</code> deletes the preveious sentence
+</p>
+
+<p>
+Join two lines: <code>J</code>
+line one
+Line two
+</p>
+</blockquote></li>
+
+<li><p>
+Setting Marks
+</p>
+<blockquote>
+<p>
+markers can be really powerful. Think of them like bookmarks.
+(from evil mode) set a mark somewhere in the file. <code>m {some character on kbd}</code> (hint, m is a good, fast option&#x2026;)
+Navigate away, mark again <b>(different character)</b>
+</p>
+
+<p>
+Goto a marker: <code>` {some character used prev.}</code>
+TIP: It seems evil always marks the last inserted position with the last mark (`) i.e. <code>``</code> always returns you to where you were last inserting.
+</p>
+
+<p>
+To me, this is almost as handy (maybe more-so for focusing?) than split-pane mode.
+</p>
+</blockquote></li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-org55244b0" class="outline-3">
+<h3 id="org55244b0"><span class="section-number-3">5.3.</span> Much-needed terminal upgrade</h3>
+<div class="outline-text-3" id="text-5-3">
+<p>
+Unfortunately, the default terminal(s) that Emacs and Doom ship with are <i>awful.</i> Fix that right away&#x2026;
+</p>
+
+<p>
+And in your Doom Emacs <code>init.el</code> file:
+</p>
+<pre class="example" id="orgb76a627">
+;;init.el
+
+:term
+;;eshell            ; the elisp shell that works everywhere
+;;shell             ; simple shell REPL for Emacs
+;;term              ; basic terminal emulator for Emacs
+vterm             ; the best terminal emulation in Emacs
+</pre>
+
+<p>
+While you&rsquo;re here, you might also enable additional <a href="#org983cd71">language support</a>, which Doom makes easy&#x2026;
+</p>
+
+<pre class="example" id="org0d98218">
+sudo apt install libvterm libvterm-dev libtool
+</pre>
+</div>
+</div>
+<div id="outline-container-org2325d8d" class="outline-3">
+<h3 id="org2325d8d"><span class="section-number-3">5.4.</span> Doom Emacs</h3>
+<div class="outline-text-3" id="text-5-4">
+<ul class="org-ul">
+<li>Curated defaults and &ldquo;sane&rdquo; settings, rather than fight generic GNU defaults <i>and</i> learn simultaneously.
+<ul class="org-ul">
+<li><a href="https://github.com/minad/corfu">Corfu</a>
+Text completion back-end (pop-down for spelling, etc)</li>
+<li><a href="https://github.com/magit/magit">Magit</a>
+Amazing Git integration for Emacs. Worthy of its own tutorial&#x2026;</li>
+<li><a href="https://github.com/bbatsov/projectile">Projectile</a></li>
+<li><a href="https://elpa.gnu.org/packages/which-key.html">Which Key</a>
+Your gateway to finding the shortcuts you can never remember.
+&ldquo;Level II <code>C-h</code>&rdquo;</li>
+<li><a href="https://github.com/Alexander-Miller/treemacs">Treemacs</a></li>
+<li><a href="https://github.com/flycheck/flycheck">Flycheck</a>
+Needs to be enabled in init.el, then run doom sync.</li>
+<li><a href="https://github.com/doomemacs/themes?tab=readme-ov-file#theme-list">Many themes</a></li>
+<li><a href="https://github.com/emacs-evil/evil">Evil Mode</a></li>
+</ul></li>
+<li>Install packages directly from GitHub (if desired)</li>
+<li><p>
+<a href="https://github.com/emacs-evil/evil">emulation Vim</a>
+(Extensible VI Layer)
+</p>
+<blockquote>
+<p>
+As a Linux guru and Systems Engineer, I highly recommend learning vi anyway, since it&rsquo;s the de-facto standard on every server implementation of Linux. You can count on Vi being present on the machine.
+</p>
+</blockquote></li>
+<li>LSP integration</li>
+<li><code>doom doctor</code> assists with possible configuration issues</li>
+<li>Designed with repeatability in mind (i.e. backup to your own Git repo)</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgcb25fce" class="outline-3">
+<h3 id="orgcb25fce"><span class="section-number-3">5.5.</span> Links to More Tips</h3>
+<div class="outline-text-3" id="text-5-5">
+<ul class="org-ul">
+<li><a href="https://yusbk.github.io/2021/04/27/doom-emacs-tips/">Doom Emacs Tips - yusbk@GitHub</a></li>
+<li><a href="https://www.masteringemacs.org/">Mastering Emacs</a>- <a href="https://www.masteringemacs.org/">Mastering Emacs (PDF Book)</a></li>
+<li><a href="remapping-ctrl.html">Avoiding Emacs Pinky</a></li>
+<li><a href="https://www.youtube.com/watch?v=w3krYEeqnyk">Conquering Kubernetes with Emacs + Org Mode</a></li>
+<li><a href="https://www.youtube.com/watch?v=pqLSPo5k70c">Writing a Book in Org Mode</a></li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-orgec0a051" class="outline-2">
+<h2 id="orgec0a051"><span class="section-number-2">6.</span> Advanced Tools</h2>
+<div class="outline-text-2" id="text-6">
+<p>
+Things I likely didn&rsquo;t have time to fit into an hour, but could also be interesting&#x2026;
+</p>
+<ul class="org-ul">
+<li>Using <a href="polyglot-example.html#MissingReference">uv</a> for Python dependencies and virtual environments</li>
+<li>Using <a href="polyglot-example.html#MissingReference">remotes</a> for R to install packages from GitHub directly</li>
+<li>Increasing resolution of R graphics in <a href="polyglot-example.html">Org&rsquo;s header</a></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org3d0cbdd" class="outline-2">
+<h2 id="org3d0cbdd"><span class="section-number-2">7.</span> Practical Intro to Elisp</h2>
+<div class="outline-text-2" id="text-7">
+</div>
+<div id="outline-container-org761198c" class="outline-3">
+<h3 id="org761198c"><span class="section-number-3">7.1.</span> Change to a light theme:</h3>
+<div class="outline-text-3" id="text-7-1">
+<blockquote>
+<p>
+I was asked to use large text and <i>not</i> use dark backgrounds when presenting, because of smartphones.
+What a great example for a practical elisp example&#x2026;
+</p>
+
+<p>
+How do we do this?  I have no example, but luckily, <b>emacs is self-documenting&#x2026;</b>
+</p>
+
+<p>
+<code>&lt;SPC&gt; h t</code> shows that <code>consult-theme</code> is responsible for changing THEME&#x2026; Ok&#x2026;
+</p>
+</blockquote>
+
+<div class="org-src-container">
+<pre class="src src-elisp"><span style="color: #5B6268;">;; </span><span style="color: #5B6268;">Cool, so that wasn't bad...
+</span>(<span style="color: #a9a1e1;">consult-theme</span> <span style="color: #51afef;">'</span><span style="color: #ECBE7B;">doom-flatwhite</span>)
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgf988a76" class="outline-3">
+<h3 id="orgf988a76"><span class="section-number-3">7.2.</span> Enlarge text:</h3>
+<div class="outline-text-3" id="text-7-2">
+<blockquote>
+<p>
+How is this done? Well, I know the scroll wheel enlarges text
+Let&rsquo;s find out how to automate that&#x2026;
+<code>&lt;SPC&gt; h k &lt;CTRL&gt; &lt;Scroll&gt;</code>  Signature
+</p>
+
+<hr />
+
+<p>
+(mouse-wheel-text-scale EVENT)
+</p>
+
+<p>
+Documentation
+Adjust font size of the default face according to EVENT.
+</p>
+
+<p>
+See also text-scale-adjust.
+</p>
+
+<p>
+<b>This wasn&rsquo;t that helpful</b>
+</p>
+<hr />
+
+<p>
+<code>&lt;SPC&gt; :</code> &ldquo;text&#x2026;&rdquo;
+</p>
+
+<p>
+Ah, text-scale-set  &lt;&#x2013; Let&rsquo;s fiddle with this&#x2026;
+</p>
+
+<p>
+<code>&lt;SPC&gt; ;</code> (text-scale-set 5) &lt;&#x2013; HERE WE ARE&#x2026;
+</p>
+</blockquote>
+
+<p>
+Let&rsquo;s put it into some elisp code&#x2026;
+</p>
+<div class="org-src-container">
+<pre class="src src-elisp">(<span style="color: #a9a1e1;">text-scale-set</span> 4)
+</pre>
+</div>
+
+<blockquote>
+<p>
+However&#x2026; We&rsquo;ll see that switching to a different buffer has old text the same default size.  Hm&#x2026;
+</p>
+
+<p>
+<code>&lt;SPC&gt; :</code> big-font&#x2026;
+</p>
+
+<p>
+&#x2014;
+Documentation
+Globally resizes your fonts for streams, screen-sharing or presentations.
+</p>
+
+<p>
+Uses doom-big-font if its set, otherwise uses doom-font (falling back to
+your system font).
+</p>
+
+<p>
+Also resizees doom-variable-pitch-font and doom-serif-font.
+</p>
+
+<p>
+This is a global minor mode.  If called interactively, toggle the
+Doom-BIG-Font mode mode.  If the prefix argument is positive, enable
+the mode, and if it is zero or negative, disable the mode.
+</p>
+
+<p>
+If called from Lisp, toggle the mode if ARG is toggle.  Enable the
+mode if ARG is nil, omitted, or is a positive number.  Disable the mode
+if ARG is a negative number.
+&#x2014;
+</p>
+
+<p>
+This looks better&#x2026;
+Let&rsquo;s see how it works&#x2026;
+<code>&lt;SPC&gt; h f doom-big-font-mode</code>
+Reveals that it seems to operate based on doom-adjust-font-size&#x2026;
+So, we can set that&#x2026;
+</p>
+</blockquote>
+
+<div class="org-src-container">
+<pre class="src src-elisp">(<span style="color: #c678dd;">doom-adjust-font-size</span> 5)
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-elisp"><span style="color: #5B6268;">;; </span><span style="color: #5B6268;">This gets us back to square one...
+</span>(<span style="color: #c678dd;">doom/reset-font-size</span>)
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgb726a22" class="outline-3">
+<h3 id="orgb726a22"><span class="section-number-3">7.3.</span> Putting it together into a function:</h3>
+<div class="outline-text-3" id="text-7-3">
+<div class="org-src-container">
+<pre class="src src-elisp">(<span style="color: #51afef;">defun</span> <span style="color: #c678dd;">+presentation-mode</span> (<span style="color: #ECBE7B;">&amp;optional</span> arg)
+  <span style="color: #83898d;">"Custom function to ready Emacs for presenting. Enables if ARG is non-nil, else disables."</span>
+  (<span style="color: #51afef;">if</span> arg
+      (<span style="color: #51afef;">progn</span>
+        (<span style="color: #a9a1e1;">message</span> <span style="color: #98be65;">"Enabling presentation mode!"</span>)
+        (<span style="color: #a9a1e1;">consult-theme</span> <span style="color: #51afef;">'</span><span style="color: #ECBE7B;">doom-flatwhite</span>)
+        (<span style="color: #c678dd;">doom-adjust-font-size</span> 4))
+    (<span style="color: #51afef;">progn</span>
+      (<span style="color: #a9a1e1;">message</span> <span style="color: #98be65;">"Disabling presentation mode!"</span>)
+      (<span style="color: #c678dd;">doom/reset-font-size</span>)
+      (<span style="color: #a9a1e1;">consult-theme</span> <span style="color: #51afef;">'</span><span style="color: #ECBE7B;">doom-one</span>))))
+</pre>
+</div>
+
+<blockquote>
+<p>
+And, we can try calling it:
+<code>&lt;SPC&gt; ; "(+presentation-mode t)"</code>
+</p>
+
+<p>
+Basic functionality achieved&#x2026;
+</p>
+
+<p>
+Maybe there are some other things we&rsquo;d like to have it do, i.e. clean up our == ~~ ** __ stuff&#x2026; with org-pretty-mode?
+</p>
+</blockquote>
+
+<div class="org-src-container">
+<pre class="src src-elisp">(<span style="color: #51afef;">defun</span> <span style="color: #c678dd;">+presentation-mode</span> (<span style="color: #ECBE7B;">&amp;optional</span> arg)
+  <span style="color: #83898d;">"Custom function to ready Emacs for presenting. Enables if ARG is non-nil, else disables."</span>
+  (<span style="color: #51afef;">if</span> arg
+      (<span style="color: #51afef;">progn</span>
+        (<span style="color: #a9a1e1;">message</span> <span style="color: #98be65;">"Enabling presentation mode!"</span>)
+        (<span style="color: #a9a1e1;">consult-theme</span> <span style="color: #51afef;">'</span><span style="color: #ECBE7B;">doom-flatwhite</span>)  <span style="color: #5B6268;">;;</span><span style="color: #5B6268;">Load a more readable theme
+</span>        (<span style="color: #c678dd;">doom-adjust-font-size</span> 4) <span style="color: #5B6268;">;; </span><span style="color: #5B6268;">Adjust font size for smartphones
+</span>        (<span style="color: #dcaeea;">+org-pretty-mode</span>) <span style="color: #5B6268;">;; </span><span style="color: #5B6268;">Formatting niceities
+</span>        (<span style="color: #dcaeea;">org-indent-mode</span> -1))
+    (<span style="color: #51afef;">progn</span>
+      (<span style="color: #a9a1e1;">message</span> <span style="color: #98be65;">"Disabling presentation mode!"</span>)
+      (<span style="color: #c678dd;">doom/reset-font-size</span>)
+      (<span style="color: #a9a1e1;">consult-theme</span> <span style="color: #51afef;">'</span><span style="color: #ECBE7B;">doom-one</span>)
+      (<span style="color: #dcaeea;">+org-pretty-mode</span> -1)
+      (<span style="color: #dcaeea;">org-indent-mode</span>))
+      )))
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org88bd744" class="outline-2">
+<h2 id="org88bd744"><span class="section-number-2">8.</span> Org Mode</h2>
+<div class="outline-text-2" id="text-8">
+</div>
+<div id="outline-container-org6771e5d" class="outline-3">
+<h3 id="org6771e5d"><span class="section-number-3">8.1.</span> What is it?</h3>
+<div class="outline-text-3" id="text-8-1">
+<ul class="org-ul">
+<li><p>
+In an nutshell
+</p>
+<blockquote>
+<p>
+Org mode is here to help you realize the <span class="underline">power of plaintext</span> in document creation. It&rsquo;s a different philosophy that emphasizes storing your document&rsquo;s content <b>not</b> as encoded information in a proprietary format, such as <code>.docx</code>, <code>.pdf</code>, <code>Google Sheets</code>, etc, but as simple text in a file.
+</p>
+
+<p>
+It&rsquo;s similar to, but also distinct from Markdown (although most of its features, Git(Hub) recognizes and works with). Org content is more dynamic and integrates well with other Emacs features (agendas, timestamping, etc), and is more of a living document than Markdown (which is basically static).
+</p>
+
+<p>
+Org mode has excellent exporting abilities, <code>HTML</code>, <code>TeX</code>, <code>PDF</code>, and others (extensible with <a href="https://orgmode.org/worg/exporters/ox-overview.html">ox framework</a>)
+</p>
+</blockquote></li>
+<li><a href="https://orgmode.org/orgguide.pdf">Official Quickstart Guide</a></li>
+<li>Emacs <code>major mode</code>
+<ul class="org-ul">
+<li>Notes</li>
+<li>Documents</li>
+<li>Literate programming &amp; computational notebooks</li>
+<li>To-do lists</li>
+<li>Project Planning</li>
+</ul></li>
+<li><a href="https://www.labri.fr/perso/nrougier/GTD/index.html">GTD Guide</a></li>
+<li><p>
+<a href="https://orgmode.org/worg/org-tutorials/index.html">Worg - Inspiration for using&#x2026;</a>
+</p>
+<blockquote>
+<p>
+The trouble seems to be finding <i>effective</i> ways to use it. Suffice it to say, Org is useful from everything from task management to coding and publishing&#x2026; Decide on <i>your</i> use case for it and focus your efforts there. Patience&#x2026;
+</p>
+</blockquote></li>
+<li><p>
+<a href="https://orgmode.org/tools.html">Mobile Compatibility</a>
+</p>
+<blockquote>
+<p>
+There are varrious tools to extend Org mode to Android and IOS, and to narrow it to a particular use case, if defaults are too broad for your liking.
+</p>
+</blockquote></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgd254a86" class="outline-3">
+<h3 id="orgd254a86"><span class="section-number-3">8.2.</span> Polyglot (literate) Programming</h3>
+<div class="outline-text-3" id="text-8-2">
+<ul class="org-ul">
+<li>Definition:
+<i>&ldquo;The practice of using multiple programming languages in a single project, system, or file, for the purpose of leveraging the strengths of each language for different tasks. This technique leverages the strengths of multiple programming languages and often yields greater efficiency in solving complex problems.&rdquo;</i></li>
+<li>Live example</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org97ee865" class="outline-3">
+<h3 id="org97ee865"><span class="section-number-3">8.3.</span> Sharing with others (exporting)</h3>
+<div class="outline-text-3" id="text-8-3">
+</div>
+<div id="outline-container-orgf5a508f" class="outline-4">
+<h4 id="orgf5a508f"><span class="section-number-4">8.3.1.</span> Exporting to HTML (best)</h4>
+<div class="outline-text-4" id="text-8-3-1">
+<ul class="org-ul">
+<li><p>
+<a href="https://github.com/fniessen/org-html-themes">readtheorg theme</a>
+</p>
+<blockquote>
+<p>
+Link to the theme I used for this presentation&#x2026;
+</p>
+</blockquote></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgf668419" class="outline-4">
+<h4 id="orgf668419"><span class="section-number-4">8.3.2.</span> Ox-exporter</h4>
+<div class="outline-text-4" id="text-8-3-2">
+<ul class="org-ul">
+<li><a href="https://orgmode.org/worg/exporters/ox-overview.html">Link to available export formats</a>
+<ul class="org-ul">
+<li>Presentations
+<ul class="org-ul">
+<li>Beamer
+De-facto standard for anything Mathematics related</li>
+<li>deck.js
+More general slideshow format. Prettier&#x2026;</li>
+<li>HTML presentations
+I.e. this presentation. Great for multimodal web-oriented presentations.</li>
+</ul></li>
+<li>Documentation
+<ul class="org-ul">
+<li>HTML</li>
+<li>PDF</li>
+<li>ODT (open office)</li>
+<li>Markdown</li>
+</ul></li>
+<li>Task Juggling
+<ul class="org-ul">
+<li>iCalendar</li>
+<li>Task Juggler</li>
+</ul></li>
+<li>LaTeX
+<ul class="org-ul">
+<li>Koma Scrittr?</li>
+</ul></li>
+<li>man (Linux Man pages)</li>
+<li>Freemind (mind mapping)</li>
+<li><a href="https://www.gnu.org/software/groff/">Groff</a>
+GNU Typesetting system</li>
+</ul></li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-orga3208d8" class="outline-3">
+<h3 id="orga3208d8"><span class="section-number-3">8.4.</span> Babel</h3>
+<div class="outline-text-3" id="text-8-4">
+<p>
+Setting up Babel correctly takes some tweaking&#x2026;
+First, head over to your <code>init.el</code> file and tune that for the languages and things you plan to use:
+</p>
+<pre class="example" id="org983cd71">
+;;init.el
+;;Filtered for relevance...
+:lang
+...
+emacs-lisp        ; drown in parentheses
+ess               ; emacs speaks statistics
+markdown          ; writing docs for people to ignore
+nix               ; I hereby declare "nix geht mehr!"
+org               ; organize your plain life in plain text
+python            ; beautiful is better than ugly
+sh                ; she sells {ba,z,fi}sh shells on the C xor
+...
+</pre>
+
+<p>
+Check out <a href="https://org-babel.readthedocs.io/en/latest/">this handy guide</a> for way more in-depth examples.
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Matthew Younger</p>
+<p class="date">Created: 2026-01-12 Mon 17:49</p>
+</div>
+</body>
+</html>

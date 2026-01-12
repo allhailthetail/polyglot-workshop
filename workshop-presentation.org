@@ -1,13 +1,5 @@
 #+SETUPFILE: https://fniessen.github.io/org-html-themes/org/theme-readtheorg.setup
 
-* TODO Wants:
-** DONE Target of 1 hr
-** [X] PRESENT THE BASICS... Make it Accessible!!
-** [X] Tutorial on Emacs
-** [X] Unique power of org mode
-self-evident.
-** [ ] Initialization file, how to run R src blocks
-** [ ] Polyglot Programming in Emacs
 * Why use FOSS?
 - Avoid proprietary "black box" tools.
   Transparency
@@ -69,9 +61,12 @@ self-evident.
 - Hardware compatibility and helpful resources have never been as good as they are now.
 ** Practical examples
 *** Package Management
-#+begin_src bash :results output
+#+begin_src bash :results output :exports both
 apt show emacs | grep Version
 #+end_src
+
+#+RESULTS:
+: Version: 1:30.1+1-6
 
 #+begin_example
 sudo apt install r-base
@@ -283,6 +278,7 @@ sudo apt install libvterm libvterm-dev libtool
 Things I likely didn't have time to fit into an hour, but could also be interesting...
 - Using [[file:polyglot-example.org::Python Random Forest Model][uv]] for Python dependencies and virtual environments
 - Using [[file:polyglot-example.org::Environment Inspection][remotes]] for R to install packages from GitHub directly
+- Increasing resolution of R graphics in [[file:polyglot-example.org][Org's header]]
 * Practical Intro to Elisp
 ** Change to a light theme:
 #+begin_quote

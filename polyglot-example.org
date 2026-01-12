@@ -1,5 +1,6 @@
 #+AUTHOR: Matthew Younger
 #+TITLE: Polyglot Data Science Example
+#+SETUPFILE: https://fniessen.github.io/org-html-themes/org/theme-readtheorg.setup
 #+PROPERTY: header-args:R :session *R-lang* :results output :units px :width 2400 :height 2400 :res 300
 #+PROPERTY: header-args:python :session *py-lang* :results output
 #+PROPERTY: header-args:bash :results silent
@@ -12,6 +13,9 @@ I thought a Kaggle dataset could be a good example, since I don't have any backg
 #+PROPERTY: header-args:R :session *R-lang* :results output
 #+PROPERTY: header-args:python :session *py-lang* :results output
 #+PROPERTY: header-args:bash :results silent
+
+To Control whether your output makes it to the HTML doc or is supressed:
+... :exports both
 #+end_example
 
 Here, we're establishing (at the beginning of the =org= file) things we want to apply implicitly
@@ -42,16 +46,52 @@ How do I...
 unzip --help
 #+end_src
 
+#+RESULTS:
+#+begin_example
+UnZip 6.00 of 20 April 2009, by Debian. Original by Info-ZIP.
+
+Usage: unzip [-Z] [-opts[modifiers]] file[.zip] [list] [-x xlist] [-d exdir]
+  Default action is to extract files in list, except those in xlist, to exdir;
+  file[.zip] may be a wildcard.  -Z => ZipInfo mode ("unzip -Z" for usage).
+
+  -p  extract files to pipe, no messages     -l  list files (short format)
+  -f  freshen existing files, create none    -t  test compressed archive data
+  -u  update files, create if necessary      -z  display archive comment only
+  -v  list verbosely/show version info       -T  timestamp archive to latest
+  -x  exclude files that follow (in xlist)   -d  extract files into exdir
+modifiers:
+  -n  never overwrite existing files         -q  quiet mode (-qq => quieter)
+  -o  overwrite files WITHOUT prompting      -a  auto-convert any text files
+  -j  junk paths (do not make directories)   -aa treat ALL files as text
+  -U  use escapes for all non-ASCII Unicode  -UU ignore any Unicode fields
+  -C  match filenames case-insensitively     -L  make (some) names lowercase
+  -X  restore UID/GID info                   -V  retain VMS version numbers
+  -K  keep setuid/setgid/tacky permissions   -M  pipe through "more" pager
+See "unzip -hh" or unzip.txt for more help.  Examples:
+  unzip data1 -x joe   => extract all files except joe from zipfile data1.zip
+  unzip -p foo | more  => send contents of foo.zip via pipe into program more
+  unzip -fo foo ReadMe => quietly replace existing ReadMe if archive file newer
+#+end_example
+
 I've learned the hard way, it's best practice to VERIFY the data integrity before getting started...
-#+begin_src bash :results reset output
+#+begin_src bash :results reset output :exports both
 unzip -t global-coffee-health-dataset.zip
 #+end_src
 
+#+RESULTS:
+: Archive:  global-coffee-health-dataset.zip
+:     testing: synthetic_coffee_health_10000.csv   OK
+: No errors detected in compressed data of global-coffee-health-dataset.zip.
+
 Wonderful, there are no errors in the =.zip= file as far as =unzip= is concerned. Now, let's extract and rename...
-#+begin_src bash
+#+begin_src bash :exports both
 unzip global-coffee-health-dataset.zip synthetic_coffee_health_10000.csv
 mv synthetic_coffee_health_10000.csv coffee.csv
 #+end_src
+
+#+RESULTS:
+: Archive:  global-coffee-health-dataset.zip
+:   inflating: synthetic_coffee_health_10000.csv
 
 * Environment Inspection
 As is good practice, let's inspect our environment before beginning, verifying that versions of R, Python, and any other dependencies (i.e. the package containing the dataset) match up with the results of the example project. =Org mode= has our back:
@@ -60,6 +100,9 @@ As is good practice, let's inspect our environment before beginning, verifying t
 #+begin_src bash :results replace output
 R --version | head -n 1
 #+end_src
+
+#+RESULTS: R-version-check
+: R version 4.5.0 (2025-04-11) -- "How About a Twenty-Six"
 
 There are also some R dependencies that are necessary:
 #+name:r_deps
@@ -84,6 +127,9 @@ It's also a good idea to make sure Emacs and Org are up to the task, since R isn
 (check-ess-installed)
 #+end_src
 
+#+RESULTS:
+: ESS is installed.
+
 Let's also check the ~Python~ version:
 
 #+name: python-version-check
@@ -91,15 +137,39 @@ Let's also check the ~Python~ version:
 python --version
 #+end_src
 
+#+RESULTS: python-version-check
+: Python 3.13.5
+
 * Data Wrangling in R
 ** Load and Clean
-#+begin_src R
+#+begin_src R :exports both
 library(tidyverse)
 
 read.csv("coffee.csv") -> df
 
 df %>% str()
 #+end_src
+
+#+RESULTS:
+#+begin_example
+'data.frame':	10000 obs. of  16 variables:
+ $ ID                     : int  1 2 3 4 5 6 7 8 9 10 ...
+ $ Age                    : int  40 33 42 53 32 32 53 44 29 41 ...
+ $ Gender                 : chr  "Male" "Male" "Male" "Male" ...
+ $ Country                : chr  "Germany" "Germany" "Brazil" "Germany" ...
+ $ Coffee_Intake          : num  3.5 1 5.3 2.6 3.1 3.4 2.7 4.5 1.7 4 ...
+ $ Caffeine_mg            : num  328.1 94.1 503.7 249.2 298 ...
+ $ Sleep_Hours            : num  7.5 6.2 5.9 7.3 5.3 6.4 7.8 5.5 7.1 6.4 ...
+ $ Sleep_Quality          : chr  "Good" "Good" "Fair" "Good" ...
+ $ BMI                    : num  24.9 20 22.7 24.7 24.1 27 24.3 15.8 21.7 30.4 ...
+ $ Heart_Rate             : int  78 67 59 71 76 82 58 62 60 69 ...
+ $ Stress_Level           : chr  "Low" "Low" "Medium" "Low" ...
+ $ Physical_Activity_Hours: num  14.5 11 11.2 6.6 8.5 8.8 1 0.7 2.2 11.9 ...
+ $ Health_Issues          : chr  "None" "None" "Mild" "Mild" ...
+ $ Occupation             : chr  "Other" "Service" "Office" "Other" ...
+ $ Smoking                : int  0 0 0 0 0 0 1 1 1 0 ...
+ $ Alcohol_Consumption    : int  0 0 0 0 1 0 0 1 1 0 ...
+#+end_example
 
 This looks like a dataset that we could use to predict =Health_Issues= based on: =Age, Gender, Coffee_Intake, Caffeine_mg, Sleep_Hours, BMI, Heart_Rate, Stress_Level, Physical_Activity_Hours, Occupation, Smoking=.
 
@@ -108,6 +178,8 @@ A few of these things seem like stuff that shouldn't matter (playing doctor here
 #+begin_src R
 df %>% select(!c(Country, Sleep_Quality)) -> df
 #+end_src
+
+#+RESULTS:
 
 It's also good to convert Smoking and Alcohol_Consumption to factors rather than boolean (actually integers):
 We could've used tryLogical on =read.csv= if they'd have used F/T or FALSE, TRUE instead... Plea to anyone creating dataframes...
@@ -120,6 +192,8 @@ df <- df %>% mutate(
        )
 #+end_src
 
+#+RESULTS: df_int_to_factors
+
 #+RESULTS:
 
 ** Basic analysis:
@@ -131,9 +205,11 @@ First, the graphics need a place to live:
 mkdir output
 #+end_src
 
+#+RESULTS:
+
 It looks like there's definitely some correlation here between how much coffee one drinks and how much sleep they get. "Interesting..."
 
-#+begin_src R :results file graphics :file output/coffee_vs_sleep.png
+#+begin_src R :results file graphics :file output/coffee_vs_sleep.png :exports both
 library(hrbrthemes) # For a clean typography-focused theme
 
 df %>%
@@ -161,6 +237,9 @@ df %>%
   )
 #+end_src
 
+#+RESULTS:
+[[file:output/coffee_vs_sleep.png]]
+
 We definitely should save that, but let's mark that todo later. =C-c C-t t=
 
 *** BMI Range
@@ -179,9 +258,12 @@ ggplot(df, aes(y = BMI, x = "")) +
   theme(plot.title = element_text(face = "bold"))
 #+end_src
 
+#+RESULTS:
+[[file:output/BMI_range.png]]
+
 The boxplot shows there are outliers.  How many?
 
-#+begin_src R
+#+begin_src R :exports both
 Q1 <- quantile(df$BMI, .25)
 Q3 <- quantile(df$BMI, .75)
 overwt <- 24.9
@@ -194,8 +276,12 @@ nrow(df[df$BMI > overwt,])/10000
 nrow(df[df$BMI < underwt,])/10000
 #+end_src
 
+#+RESULTS:
+: [1] 0.4064
+: [1] 0.0819
+
 Actually, this could be a handy factor to add to the data, i.e. =body_condition= low, ok, high.
-#+begin_src R
+#+begin_src R :exports both
 df %>% mutate(Body_Condition = factor(case_when(
                 BMI < underwt ~"low",
                 BMI >= underwt & BMI < overwt ~ "normal",
@@ -205,10 +291,14 @@ df %>% mutate(Body_Condition = factor(case_when(
 summary(df$Body_Condition)
 #+end_src
 
+#+RESULTS:
+: high    low normal
+:   4172    819   5009
+
 Interesting. Very nearly as many high-weight subjects as normal, very few low...
 There should probably be a table of that for the final report.
 
-#+begin_src R :results file graphics :file output/body_conditions.png
+#+begin_src R :results file graphics :file output/body_conditions.png :exports both
 ggplot(df, aes(x = Body_Condition)) +
   geom_bar(fill = c("lightblue", "lightgreen", "coral"), alpha = 0.8) +  # Custom colors for bars
   labs(title = "Distribution of Body Conditions",
@@ -226,9 +316,12 @@ ggplot(df, aes(x = Body_Condition)) +
   geom_text(stat = 'count', aes(label = ..count..), position = position_stack(vjust = 0.5), size = 5, color = "black")  # Add count labels
 #+end_src
 
+#+RESULTS:
+[[file:output/body_conditions.png]]
+
 Graphs also show that body_condition doesn't change the amount of coffee taken in. Somewhat interesting because I'd think like other substances, heavier and lighter people need more/less. This is synthetic data, maybe we can cast doubt on it with this result?
 
-#+begin_src R :results file graphics :file output/coffee_vs_body_cond.png
+#+begin_src R :results file graphics :file output/coffee_vs_body_cond.png :exports both
 # Espresso, Cool Taupe, Oat Milk
 coffee_colors <- c("low" = "#D9B99B", "normal" = "#7D6B5D", "high" = "#241611")
 
@@ -252,6 +345,9 @@ ggplot(df, aes(x = Body_Condition, y = Coffee_Intake, fill = Body_Condition)) +
   )
 #+end_src
 
+#+RESULTS:
+[[file:output/coffee_vs_body_cond.png]]
+
 *** Considering other substances
 For both smoking and alcohol, there are fewer who do than don't. Good to know, because that'd throw off our charts/analysis.
 
@@ -260,7 +356,15 @@ prop.table(table(df$Smoking))
 prop.table(table(df$Alcohol_Consumption))
 #+end_src
 
-#+begin_src R :results file graphics :file output/smoking_alcohol_moasic.png
+#+RESULTS:
+:
+:  FALSE   TRUE
+: 0.7996 0.2004
+:
+:  FALSE   TRUE
+: 0.6993 0.3007
+
+#+begin_src R :results file graphics :file output/smoking_alcohol_moasic.png :exports both
 library(tidyverse)
 library(scales)
 
@@ -300,8 +404,11 @@ df %>%
   )
 #+end_src
 
+#+RESULTS:
+[[file:output/smoking_alcohol_moasic.png]]
 
-#+begin_src R :results graphics file :file output/heart_rate_caffeine.png
+
+#+begin_src R :results graphics file :file output/heart_rate_caffeine.png :exports both
 library(ggplot2)
 
 ggplot(df, aes(x = Caffeine_mg, y = Heart_Rate)) +
@@ -319,13 +426,16 @@ ggplot(df, aes(x = Caffeine_mg, y = Heart_Rate)) +
   theme(plot.title = element_text(face = "bold"))
 #+end_src
 
+#+RESULTS:
+[[file:output/heart_rate_caffeine.png]]
+
 I think it's interesting there's no correlation here, because my experience is that caffeine causes an increase in heart rate.
 
 *** Coffee Gender Gap?
 
 Looks like gals like Coffee just as much as men.
 
-#+begin_src R :results graphics file :file output/coffee_gender_density.png
+#+begin_src R :results graphics file :file output/coffee_gender_density.png :exports both
 library(ggplot2)
 
 ggplot(df, aes(x = Coffee_Intake, fill = Gender)) +
@@ -341,6 +451,9 @@ ggplot(df, aes(x = Coffee_Intake, fill = Gender)) +
   theme(legend.position = "top", plot.title = element_text(face = "bold"))
 #+end_src
 
+#+RESULTS:
+[[file:output/coffee_gender_density.png]]
+
 ** Export an improved Dataset
 Now that we've done basic EDA, we can export this (hopefully) improved CSV and move on over to Python to do some more dynamic stuff in a larger ecosystem.
 
@@ -352,6 +465,11 @@ Verify...
 #+begin_src bash
 head -n 3 coffee_revised.csv
 #+end_src
+
+#+RESULTS:
+: "","ID","Age","Gender","Coffee_Intake","Caffeine_mg","Sleep_Hours","BMI","Heart_Rate","Stress_Level","Physical_Activity_Hours","Health_Issues","Occupation","Smoking","Alcohol_Consumption","Body_Condition"
+: "1",1,40,"Male",3.5,328.1,7.5,24.9,78,"Low",14.5,"None","Other",FALSE,FALSE,"high"
+: "2",2,33,"Male",1,94.1,6.2,20,67,"Low",11,"None","Service",FALSE,FALSE,"normal"
 
 Look what got done with just a little bit of work in R:
 1. Removed some irrelevant rows
@@ -379,6 +497,8 @@ uv init
 uv add plotly
 uv add pandas
 #+end_src
+
+#+RESULTS:
 
 **  Dynamic Plotting with Plotly
 Like shown in the above [[Handling Virtual Environments][notes]], I'm now pointing Python at the virtualenv where I installed plotly and pandas.
@@ -413,7 +533,7 @@ uv add matplotlib
 #+end_src
 
 #+PROPERTY: header-args:python :python ".venv/bin/python3" :session *py-forest* results output
-#+begin_src python :results output
+#+begin_src python :results output :exports both
 import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
@@ -444,14 +564,28 @@ model.fit(X_train, y_train)
 print(f"Accuracy: {model.score(X_test, y_test):.2f}")
 #+end_src
 
+#+RESULTS:
+: Accuracy: 0.99
+
 🎉 We developed an amazingly accurate model... Or, maybe not.
 
 Let's get a classification report:
-#+begin_src python :results output
+#+begin_src python :results output :exports both
 # 1. Get a report on the ?importance? of each feature to the model:
 from sklearn.metrics import classification_report
 print(classification_report(y_test, model.predict(X_test)))
 #+end_src
+
+#+RESULTS:
+:               precision    recall  f1-score   support
+:
+:         Mild       1.00      1.00      1.00       720
+:     Moderate       0.98      0.97      0.97        88
+:       Severe       1.00      1.00      1.00         4
+:
+:     accuracy                           0.99       812
+:    macro avg       0.99      0.99      0.99       812
+: weighted avg       0.99      0.99      0.99       812
 
 More fishy numbers... It's perfectly predicting all three cases. ~F1~ harmonic mean score is also perfct...
 Under Support, there aren't enough severe cases to be statistically significant, so how is it predicting 100% of those correctly?
@@ -486,3 +620,5 @@ typst compile report.typ
 
 It can even be used for viewing PDFs, if you like:
 Link [[file:report.pdf][PDF]]
+
+Emphasis that this is just an example, not anything I've proofread or plan to do anything with.
