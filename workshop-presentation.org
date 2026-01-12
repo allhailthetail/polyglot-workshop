@@ -1,0 +1,493 @@
+#+SETUPFILE: https://fniessen.github.io/org-html-themes/org/theme-readtheorg.setup
+
+* TODO Wants:
+** DONE Target of 1 hr
+** [X] PRESENT THE BASICS... Make it Accessible!!
+** [X] Tutorial on Emacs
+** [X] Unique power of org mode
+self-evident.
+** [ ] Initialization file, how to run R src blocks
+** [ ] Polyglot Programming in Emacs
+* Why use FOSS?
+- Avoid proprietary "black box" tools.
+  Transparency
+- Power of Plaintext over proprietary tools
+  Accessible long-term, available to more users, no lock-in.
+- Everything in one place
+  1. Editor
+  2. File browser/manager
+  3. Programming notebooks
+  4. Markdown, TeX docs
+  5. Remote file editing for my server via TRAMP
+  6. To-Do lists, calendar
+  7. Easy exportability of files to .html, .pdf, etc.
+- Hardware longevity
+  Almost everyone has old PC's sitting around, which are great for Linux.
+  You'll be surprised how well it runs on so little vs proprietary stuff.
+  My PC is 5+ years old, runs great on RPi's also.
+- Malleable software
+  Modify to your heart's content or build your own.
+  =transform what you do into a craft...=
+* What is Emacs... Really?
+#+begin_quote
+"... A magpie's nest of shiny things..."
+ - Mastering Emacs
+
+"... Thermonuclear word processor"
+ - Neal Stephenson
+#+end_quote
+- Primarily an interpreter for the ~elisp~ Language (5% C code, 95% eLisp code)
+- ~Local and Remote File Editor~
+- ~Built-in Shell/Terminal~
+- ~Org~ to-do, agenda, project planner, note-taking, programming
+- ~Magit for Git management~
+- Gnu Hyperbole reference package
+- Symbolic calculator capable of all manner of mathematical calculation
+- Music player & EPUB reader
+- EGlot LSP integration for code completion, linting
+* Why is Emacs unpopular?
+- Poor support for Windows
+  - While it installs fine, most tooling for emacs fails to run (Mastering Emacs).
+    i.e. fine for only the basics, maybe enough to get a taste for it...
+- High barrier to entry
+  - Presupposes Linux user
+- Low-usability for new users
+- By default is ugly (agreed)
+- elisp
+  #+begin_quote
+  "Emacs is 95% elisp and 5% C Code..."
+   - Mickey Peterson _Mastering Emacs_.
+
+  -----
+  In other words, "Full disclosure, leveraging emacs _requires_ you to learn at least some elisp..."
+  #+end_quote
+* Why (not) Linux?
+- Customizability
+  _You're in total, absolute control in profound ways..._
+- Vastness of scientific libraries and applications
+  - R, Python, Octave, Sympy, entire distros specifically for your needs. (i.e. Skywave Linux)
+- Hardware compatibility and helpful resources have never been as good as they are now.
+** Practical examples
+*** Package Management
+#+begin_src bash :results output
+apt show emacs | grep Version
+#+end_src
+
+#+begin_example
+sudo apt install r-base
+#+end_example
+
+#+begin_quote
+All of the instructions for /how/ to do a particular task can be laid out cleanly in your documentation, as so...
+#+end_quote
+*** Automating/notetaking of complex tasks
+#+begin_quote
+Following the DRY (don't repeat yourself) methodology:
+it's best to automate routine things that are done a lot. I spent a lot of time running and re-running a series of tasks
+to check and re-check my results.
+
+Maybe there's a routine that we want to run a lot that'd sure be handy to have documented along with our project?
+
+---
+
+Here, org babel and tangle (with permission options) can be used to send scripts straight to a user's directory.
+Potentially very handy if you're on a team and the one responsible for documention how to do compelx tasks...
+#+end_quote
+
+#+begin_src bash :results output silent :tangle ~/.local/bin/temp-handy-script :tangle-mode (identity #o755)
+#!/bin/zsh
+echo -e "This is my handy bash...\n\n"
+ls -lhtr ~
+echo -e "\n\nI listed what's in your home dir..."
+#+end_src
+
+[[https://orgmode.org/manual/Extracting-Source-Code.html][Link to Org tangle documentation]]
+
+#+begin_quote
+~IDEA:~
+
+Scripts are wonderful, but they can get cumbersome and clumsy if they're not documented. A setup like this ensures
+your scripts are well-documented, yet the context for what it does doesn't /need/ to spill over into the script itself...
+#+end_quote
+
+*** Configure the working directory for a project:
+  #+begin_example
+  mkdir -p plots/general                          # to store plots...
+  mkdir -p plots/waveforms/{initial,denoised}     # to store initial waveforms
+  mkdir -p plots/waveforms/anf                    # .. for notch filtered audio
+  mkdir -p plots/spectrograms/{initial,denoised}  # to store initial spectrograms
+  mkdir -p plots/spectrograms/anf                 # .. for anf files
+  mkdir -p R                                      # to store tangled functions:
+  mkdir -p csv/                                   # to store generated CSVs.
+  mkdir -p out/{anf,bworth}                       # to store generated wavs
+  #+end_example
+* Basic emacs
+** Day 1 plan (What I wish I'd have known)
+  "Learn how to help yourself."
+  #+begin_quote
+  "Self-documenting means that at any time you can use special commands, known as help commands, to find out what your options are, or to find out what any command does, or to find all the commands that pertain to a given topic."
+  - Emacs Docs
+
+  You'll spend several days/weeks learning to navigate and remember where things are by using =C-h=...
+  As you use it, you'll learn where the /things you use and depend on/ are. (I don't think anyone knows it all...)
+  This underscores the importance of first learning where to find what you need. Remembering it will come automatically in time.
+
+  Also... =<SPC> h-b-b= to discover all the current bindings (for wherever you are)
+  #+end_quote
+** Learning the terminology
+*** Theory of Movement
+1) Frame (windows)
+   - Window (frames)
+     #+begin_quote
+     Splitting windows:
+     Horizontally: =<SPC>-w-v=
+     Vertically: =<SPC-w-s=
+
+     TIP: Most of moving around /between/ windows is the same as normal VIM move commands, simply prefixed with a =<SPC>-w= for window commands.
+     i.e.
+     Move cursor up one window
+     =<SPC>-w-k=
+     Move cursor down one window
+     =<SPC>-w-j=
+     #+end_quote
+2) Workspaces =<SPC> <TAB>=
+   - Potentially _more_ useful than frames is workspaces. Simply teleport over to your other tasks...
+*** Modes
+1) Major mode - behavior (i.e. Org, editing a .py file, etc)
+2) Minor mode - add-ons (spell-check, formatting, etc)
+   - Particularly useful, I like to turn on spellcheck /lastly,/ after I've done the bulk of my writing.
+     I consider this a feature!
+*** Copying/pasting text
+#+begin_quote
+Emacs gives you this wonderful revolving door called the /kill ring/, which keeps (for the session) a continual record of what you copied (inside emacs).
+Text you remove by "killing" it isn't truly gone, it gets _moved_ to the kill ring and can be found handily searched at any time:
+=<
+#+end_quote
+1) "Killing" text
+   - "Copy"/save to kill ring =M-w=
+   - Save _entire line_ to kill ring =<deleteline>=
+     (CTRL+SHIFT+BACKSPACE)
+   - "Cut"/kill region =C-wxy=
+   - Kill region to end of line =D=
+*** Moving around
+- Evil Snipe
+  Snipe and Vim shortcuts are amazingly efficient...
+  #+begin_quote
+  (From move mode, navigate to the line you want to edit on...)
+  To match on two characters FORWARD: =s {type 2 chars to match}=
+  (subsequent s's move foreward...)
+
+  Example:
+  I'll have some Spam Eggs Spam
+
+
+  To match on two characters REVERSE: =S {type 2 chars to match}=
+  Spam Eggs Spam some have I'll
+
+  (Caveat: subsequent REVERSE serches are done with =s=, not =S=)
+  #+end_quote
+
+- Learning VIM bindings:
+  #+begin_quote
+  To move up, =k=
+  To move down, =j=
+  To move right, =l=
+  To move left, =h=
+
+  Foreward one word =w=
+  Backward one word =b=
+  (also works with delete... =d=)
+
+  Comment: the keybindings don't make sense as abbreviations, but by where they're at on the keyboard...
+
+  Replacement mode (from movement mode) =R=
+
+  Example:
+  You'll never replace me!
+
+  Backwards and forwards by a sentence...
+  =(= or =)=
+  I am a sentence. I'm another. I'm the final sentence. But wait, there's more...
+
+  Coincidentally, these also work nicely with =d= for delete
+  i.e. =d(= deletes the preveious sentence
+
+  Join two lines: =J=
+  line one
+  Line two
+  #+end_quote
+
+- Setting Marks
+  #+begin_quote
+  markers can be really powerful. Think of them like bookmarks.
+  (from evil mode) set a mark somewhere in the file. =m {some character on kbd}= (hint, m is a good, fast option...)
+  Navigate away, mark again *(different character)*
+
+  Goto a marker: =` {some character used prev.}=
+  TIP: It seems evil always marks the last inserted position with the last mark (`) i.e. =``= always returns you to where you were last inserting.
+
+  To me, this is almost as handy (maybe more-so for focusing?) than split-pane mode.
+  #+end_quote
+** Much-needed terminal upgrade
+Unfortunately, the default terminal(s) that Emacs and Doom ship with are /awful./ Fix that right away...
+
+And in your Doom Emacs ~init.el~ file:
+#+begin_example elisp
+;;init.el
+
+:term
+;;eshell            ; the elisp shell that works everywhere
+;;shell             ; simple shell REPL for Emacs
+;;term              ; basic terminal emulator for Emacs
+vterm             ; the best terminal emulation in Emacs
+#+end_example
+
+While you're here, you might also enable additional [[init.el_lang][language support]], which Doom makes easy...
+
+#+begin_example basho
+sudo apt install libvterm libvterm-dev libtool
+#+end_example
+
+
+** Doom Emacs
+- Curated defaults and "sane" settings, rather than fight generic GNU defaults /and/ learn simultaneously.
+  - [[https://github.com/minad/corfu][Corfu]]
+    Text completion back-end (pop-down for spelling, etc)
+  - [[https://github.com/magit/magit][Magit]]
+    Amazing Git integration for Emacs. Worthy of its own tutorial...
+  - [[https://github.com/bbatsov/projectile][Projectile]]
+  - [[https://elpa.gnu.org/packages/which-key.html][Which Key]]
+    Your gateway to finding the shortcuts you can never remember.
+    "Level II =C-h="
+  - [[https://github.com/Alexander-Miller/treemacs][Treemacs]]
+  - [[https://github.com/flycheck/flycheck][Flycheck]]
+    Needs to be enabled in init.el, then run doom sync.
+  - [[https://github.com/doomemacs/themes?tab=readme-ov-file#theme-list][Many themes]]
+  - [[https://github.com/emacs-evil/evil][Evil Mode]]
+- Install packages directly from GitHub (if desired)
+- [[https://github.com/emacs-evil/evil][emulation Vim]]
+  (Extensible VI Layer)
+  #+begin_quote
+  As a Linux guru and Systems Engineer, I highly recommend learning vi anyway, since it's the de-facto standard on every server implementation of Linux. You can count on Vi being present on the machine.
+  #+end_quote
+- LSP integration
+- =doom doctor= assists with possible configuration issues
+- Designed with repeatability in mind (i.e. backup to your own Git repo)
+** Links to More Tips
+- [[https://yusbk.github.io/2021/04/27/doom-emacs-tips/][Doom Emacs Tips - yusbk@GitHub]]
+- [[https://www.masteringemacs.org/][Mastering Emacs]]- [[https://www.masteringemacs.org/][Mastering Emacs (PDF Book)]]
+- [[file:remapping-ctrl.org][Avoiding Emacs Pinky]]
+- [[https://www.youtube.com/watch?v=w3krYEeqnyk][Conquering Kubernetes with Emacs + Org Mode]]
+- [[https://www.youtube.com/watch?v=pqLSPo5k70c][Writing a Book in Org Mode]]
+* Advanced Tools
+Things I likely didn't have time to fit into an hour, but could also be interesting...
+- Using [[file:polyglot-example.org::Python Random Forest Model][uv]] for Python dependencies and virtual environments
+- Using [[file:polyglot-example.org::Environment Inspection][remotes]] for R to install packages from GitHub directly
+* Practical Intro to Elisp
+** Change to a light theme:
+#+begin_quote
+I was asked to use large text and /not/ use dark backgrounds when presenting, because of smartphones.
+What a great example for a practical elisp example...
+
+How do we do this?  I have no example, but luckily, *emacs is self-documenting...*
+
+=<SPC> h t= shows that =consult-theme= is responsible for changing THEME... Ok...
+#+end_quote
+
+#+begin_src elisp :noeval
+;; Cool, so that wasn't bad...
+(consult-theme 'doom-flatwhite)
+#+end_src
+
+** Enlarge text:
+#+BEGIN_quote
+How is this done? Well, I know the scroll wheel enlarges text
+Let's find out how to automate that...
+=<SPC> h k <CTRL> <Scroll>=  Signature
+
+-------
+
+(mouse-wheel-text-scale EVENT)
+
+Documentation
+Adjust font size of the default face according to EVENT.
+
+See also text-scale-adjust.
+
+*This wasn't that helpful*
+-------
+
+=<SPC> := "text..."
+
+Ah, text-scale-set  <-- Let's fiddle with this...
+
+=<SPC> ;= (text-scale-set 5) <-- HERE WE ARE...
+#+end_quote
+
+Let's put it into some elisp code...
+#+begin_src elisp :noeval
+(text-scale-set 4)
+#+end_src
+
+#+begin_quote
+However... We'll see that switching to a different buffer has old text the same default size.  Hm...
+
+=<SPC> := big-font...
+
+---
+Documentation
+Globally resizes your fonts for streams, screen-sharing or presentations.
+
+Uses doom-big-font if its set, otherwise uses doom-font (falling back to
+your system font).
+
+Also resizees doom-variable-pitch-font and doom-serif-font.
+
+This is a global minor mode.  If called interactively, toggle the
+Doom-BIG-Font mode mode.  If the prefix argument is positive, enable
+the mode, and if it is zero or negative, disable the mode.
+
+If called from Lisp, toggle the mode if ARG is toggle.  Enable the
+mode if ARG is nil, omitted, or is a positive number.  Disable the mode
+if ARG is a negative number.
+---
+
+This looks better...
+Let's see how it works...
+=<SPC> h f doom-big-font-mode=
+Reveals that it seems to operate based on doom-adjust-font-size...
+So, we can set that...
+#+end_quote
+
+#+begin_src elisp
+(doom-adjust-font-size 5)
+#+end_src
+
+#+begin_src elisp :noeval
+;; This gets us back to square one...
+(doom/reset-font-size)
+#+end_src
+
+** Putting it together into a function:
+#+PROPERTY: header-args:elisp :results silent
+#+begin_src elisp
+(defun +presentation-mode (&optional arg)
+  "Custom function to ready Emacs for presenting. Enables if ARG is non-nil, else disables."
+  (if arg
+      (progn
+        (message "Enabling presentation mode!")
+        (consult-theme 'doom-flatwhite)
+        (doom-adjust-font-size 4))
+    (progn
+      (message "Disabling presentation mode!")
+      (doom/reset-font-size)
+      (consult-theme 'doom-one))))
+#+end_src
+
+#+begin_quote
+And, we can try calling it:
+=<SPC> ; "(+presentation-mode t)"=
+
+Basic functionality achieved...
+
+Maybe there are some other things we'd like to have it do, i.e. clean up our == ~~ ** __ stuff... with org-pretty-mode?
+#+end_quote
+
+#+begin_src elisp :results silent
+(defun +presentation-mode (&optional arg)
+  "Custom function to ready Emacs for presenting. Enables if ARG is non-nil, else disables."
+  (if arg
+      (progn
+        (message "Enabling presentation mode!")
+        (consult-theme 'doom-flatwhite)  ;;Load a more readable theme
+        (doom-adjust-font-size 4) ;; Adjust font size for smartphones
+        (+org-pretty-mode) ;; Formatting niceities
+        (org-indent-mode -1))
+    (progn
+      (message "Disabling presentation mode!")
+      (doom/reset-font-size)
+      (consult-theme 'doom-one)
+      (+org-pretty-mode -1)
+      (org-indent-mode))
+      )))
+#+end_src
+* Org Mode
+** What is it?
+- In an nutshell
+  #+begin_quote
+  Org mode is here to help you realize the _power of plaintext_ in document creation. It's a different philosophy that emphasizes storing your document's content *not* as encoded information in a proprietary format, such as ~.docx~, ~.pdf~, ~Google Sheets~, etc, but as simple text in a file.
+
+  It's similar to, but also distinct from Markdown (although most of its features, Git(Hub) recognizes and works with). Org content is more dynamic and integrates well with other Emacs features (agendas, timestamping, etc), and is more of a living document than Markdown (which is basically static).
+
+  Org mode has excellent exporting abilities, ~HTML~, ~TeX~, ~PDF~, and others (extensible with [[https://orgmode.org/worg/exporters/ox-overview.html][ox framework]])
+
+  #+end_quote
+- [[https://orgmode.org/orgguide.pdf][Official Quickstart Guide]]
+- Emacs ~major mode~
+  - Notes
+  - Documents
+  - Literate programming & computational notebooks
+  - To-do lists
+  - Project Planning
+- [[https://www.labri.fr/perso/nrougier/GTD/index.html][GTD Guide]]
+- [[https://orgmode.org/worg/org-tutorials/index.html][Worg - Inspiration for using...]]
+  #+begin_quote
+  The trouble seems to be finding /effective/ ways to use it. Suffice it to say, Org is useful from everything from task management to coding and publishing... Decide on /your/ use case for it and focus your efforts there. Patience...
+  #+end_quote
+- [[https://orgmode.org/tools.html][Mobile Compatibility]]
+  #+begin_quote
+  There are varrious tools to extend Org mode to Android and IOS, and to narrow it to a particular use case, if defaults are too broad for your liking.
+  #+end_quote
+** Polyglot (literate) Programming
+- Definition:
+  /"The practice of using multiple programming languages in a single project, system, or file, for the purpose of leveraging the strengths of each language for different tasks. This technique leverages the strengths of multiple programming languages and often yields greater efficiency in solving complex problems."/
+- Live example
+** Sharing with others (exporting)
+*** Exporting to HTML (best)
+- [[https://github.com/fniessen/org-html-themes][readtheorg theme]]
+  #+begin_quote
+  Link to the theme I used for this presentation...
+  #+end_quote
+*** Ox-exporter
+- [[https://orgmode.org/worg/exporters/ox-overview.html][Link to available export formats]]
+  - Presentations
+    - Beamer
+      De-facto standard for anything Mathematics related
+    - deck.js
+      More general slideshow format. Prettier...
+    - HTML presentations
+      I.e. this presentation. Great for multimodal web-oriented presentations.
+  - Documentation
+    - HTML
+    - PDF
+    - ODT (open office)
+    - Markdown
+  - Task Juggling
+    - iCalendar
+    - Task Juggler
+  - LaTeX
+    - Koma Scrittr?
+  - man (Linux Man pages)
+  - Freemind (mind mapping)
+  - [[https://www.gnu.org/software/groff/][Groff]]
+    GNU Typesetting system
+** Babel
+Setting up Babel correctly takes some tweaking...
+First, head over to your =init.el= file and tune that for the languages and things you plan to use:
+#+name: init.el_lang
+#+begin_example elisp
+;;init.el
+;;Filtered for relevance...
+:lang
+...
+emacs-lisp        ; drown in parentheses
+ess               ; emacs speaks statistics
+markdown          ; writing docs for people to ignore
+nix               ; I hereby declare "nix geht mehr!"
+org               ; organize your plain life in plain text
+python            ; beautiful is better than ugly
+sh                ; she sells {ba,z,fi}sh shells on the C xor
+...
+#+end_example
+
+Check out [[https://org-babel.readthedocs.io/en/latest/][this handy guide]] for way more in-depth examples.

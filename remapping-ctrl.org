@@ -1,0 +1,60 @@
+#+SETUPFILE: https://fniessen.github.io/org-html-themes/org/theme-readtheorg.setup
+
+* Emacs Pinky:
+#+begin_quote
+Because keyboards are designed around typing and not around our editors, odd issues like this can happen:
+CTRL in normal computing isn't used quite as often as it is when running emacs. As a result, repeated
+overextension of the pinkey finger can cause gnarly issues to arise with your hands. This little guide hopes to help anyone interested in Emacs to avoid months-long recovery of your hands (particularly the little finger)...
+
+---
+
+Unfortunately, remapping keys in Linux is  a bit of a chore and how to go about it "depends" on what flavor of Linux you like.
+#+end_quote
+
+** Arch
+- [[https://wiki.archlinux.org/title/Input_remap_utilities][Arch Wiki Link]]
+** Debian/Ubuntu
+- [[https://dev.to/tallesl/change-caps-lock-to-ctrl-3c4][Link to guide]]
+#+begin_example bash
+#/etc/default/keyboard
+
+# NOTE: Comment out rather than replace, in case you want to go back...
+
+# To swap Caps with ctrl:
+XKBOPTIONS="ctrl:swapcaps"
+
+# to change JUST CAPSLOCK (leaving ctrl)
+XKBOPTIONS="ctrl:nocaps"
+
+# Apply the configuration (run in shell)
+#sudo dpkg-reconfigure keyboard-configuration
+#+end_example
+** KDE and More generally
+#+begin_quote
+Often, built-in GUI settings has keyboard options which usually allow you to change these settings.
+#+end_quote
+
+#+NAME: KDE Keyboard Settings Page
+#+CAPTION: Photo demonstrates how to remap CAPSLOCK and CTRL keys in KDE Settings Panel.
+#+attr_org: :align left :width 50%
+#+attr_html: :width 50% :align right
+
+[[./img/kde-keyboard-settings.png]]
+
+#+begin_quote
+By the way, this is how I like to display images in Org mode. I find it exports nicely to HTML this way, and have html-style controls (align, width, etc) right there in the header...
+
+Emacs can actually /view/ images, so it's almost as easy to go, find the image, open&view it, and save the link to it and paste here:
+1. Find/view the file =<SPC> .=
+2. Save the location =<SPC> f y=
+3. Change to previous buffer =<SPC> b p=
+4. *Yank* the URL (from normal mode) =p=
+5. (Optionally) convert to relative path... =C-l=
+6. Add captions, formatting, etc?
+#+end_quote
+
+* Personal Recommendation:
+#+begin_quote
+I highly recommend remapping _both_ ESC and CAPSLOCK if you're using Doom (evil) mode.
+Train your other hand to use CTRL with some other finger?
+#+end_quote
