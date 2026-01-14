@@ -41,8 +41,10 @@ curl -L -o global-coffee-health-dataset.zip\
   https://www.kaggle.com/api/v1/datasets/download/uom190346a/global-coffee-health-dataset
 #+end_src
 
+#+RESULTS:
+
 How do I...
-#+begin_src bash
+#+begin_src bash :exports both
 unzip --help
 #+end_src
 
@@ -97,7 +99,7 @@ mv synthetic_coffee_health_10000.csv coffee.csv
 As is good practice, let's inspect our environment before beginning, verifying that versions of R, Python, and any other dependencies (i.e. the package containing the dataset) match up with the results of the example project. =Org mode= has our back:
 
 #+name: R-version-check
-#+begin_src bash :results replace output
+#+begin_src bash :results replace output :exports both
 R --version | head -n 1
 #+end_src
 
@@ -116,7 +118,7 @@ remotes::install_git("https://codeberg.org/hrbrmstr/hrbrthemes.git")
 
 
 It's also a good idea to make sure Emacs and Org are up to the task, since R isn't enabled as a Babel lang by default:
-#+begin_src elisp
+#+begin_src elisp :exports both
 (defun check-ess-installed ()
   "Check if ESS is installed."
   (if (require 'ess nil 'noerror)
@@ -133,7 +135,7 @@ It's also a good idea to make sure Emacs and Org are up to the task, since R isn
 Let's also check the ~Python~ version:
 
 #+name: python-version-check
-#+begin_src bash :results replace output
+#+begin_src bash :results replace output :exports both
 python --version
 #+end_src
 
@@ -181,7 +183,7 @@ df %>% select(!c(Country, Sleep_Quality)) -> df
 
 #+RESULTS:
 
-It's also good to convert Smoking and Alcohol_Consumption to factors rather than boolean (actually integers):
+It's also good to convert Smoking and Alcohol Consumption to factors rather than boolean (actually integers):
 We could've used tryLogical on =read.csv= if they'd have used F/T or FALSE, TRUE instead... Plea to anyone creating dataframes...
 
 #+NAME: df_int_to_factors
@@ -199,7 +201,7 @@ df <- df %>% mutate(
 ** Basic analysis:
 Honestly, I take advantage of split-screen mode and a REPL for this step, then I put code in src blocks later down below.
 
-*** Coffee Intake vs Sleep_Hours
+*** Coffee Intake vs Sleep Hours
 First, the graphics need a place to live:
 #+begin_src bash
 mkdir output
@@ -319,7 +321,7 @@ ggplot(df, aes(x = Body_Condition)) +
 #+RESULTS:
 [[file:output/body_conditions.png]]
 
-Graphs also show that body_condition doesn't change the amount of coffee taken in. Somewhat interesting because I'd think like other substances, heavier and lighter people need more/less. This is synthetic data, maybe we can cast doubt on it with this result?
+Graphs also show that body condition doesn't change the amount of coffee taken in. Somewhat interesting because I'd think like other substances, heavier and lighter people need more/less. This is synthetic data, maybe we can cast doubt on it with this result?
 
 #+begin_src R :results file graphics :file output/coffee_vs_body_cond.png :exports both
 # Espresso, Cool Taupe, Oat Milk
@@ -579,12 +581,12 @@ print(classification_report(y_test, model.predict(X_test)))
 #+RESULTS:
 :               precision    recall  f1-score   support
 :
-:         Mild       1.00      1.00      1.00       720
-:     Moderate       0.98      0.97      0.97        88
+:         Mild       0.99      1.00      1.00       720
+:     Moderate       0.98      0.95      0.97        88
 :       Severe       1.00      1.00      1.00         4
 :
 :     accuracy                           0.99       812
-:    macro avg       0.99      0.99      0.99       812
+:    macro avg       0.99      0.98      0.99       812
 : weighted avg       0.99      0.99      0.99       812
 
 More fishy numbers... It's perfectly predicting all three cases. ~F1~ harmonic mean score is also perfct...
@@ -604,9 +606,13 @@ feat_importances.nlargest(10).plot(kind='barh')
 plt.show()
 #+end_src
 
+#+NAME: test
+#+CAPTION: test
+#+attr_org: :align left :width 50%
 #+attr_html: :width 50% :align right
-#+attr_org: :width 50% :align left
-[[~/Desktop/workshop-presentation/img/feature_importances.png][fig: feature importances]]
+[[./img/feature_importances.png][Image Importances]]
+
+Notice in this case, org is smart enough to realize this very high-def photo will not fit well here, so it chooses to display the link instead in the HTML export. Nice!
 
 * Generating a Report via typesetting
 Link: [[file:report.typ][report]]

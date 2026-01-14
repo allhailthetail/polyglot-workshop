@@ -10,7 +10,6 @@ wheels/
 .venv
 
 # Project-specific ignores
-*.pdf
 .python-version
 coffee.csv
 coffee_analysis.html
@@ -19,5 +18,4 @@ global-coffee-health-dataset.zip
 main.py
 output/
 pyproject.toml
-report.pdf
 uv.lock

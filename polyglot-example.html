@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-01-12 Mon 17:49 -->
+<!-- 2026-01-13 Tue 17:59 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Polyglot Data Science Example</title>
@@ -27,31 +27,31 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org499df6a">1. Relevant Org Header Arguments</a></li>
-<li><a href="#orge809f02">2. Dowloading the dataset with cURL:</a></li>
-<li><a href="#org88a418b">3. Environment Inspection</a></li>
-<li><a href="#orgaf37666">4. Data Wrangling in R</a>
+<li><a href="#orgc6bef49">1. Relevant Org Header Arguments</a></li>
+<li><a href="#org75e1872">2. Dowloading the dataset with cURL:</a></li>
+<li><a href="#orge7697be">3. Environment Inspection</a></li>
+<li><a href="#orgf8061c5">4. Data Wrangling in R</a>
 <ul>
-<li><a href="#orgb420ebe">4.1. Load and Clean</a></li>
-<li><a href="#orgbacabfb">4.2. Basic analysis:</a>
+<li><a href="#orgded529d">4.1. Load and Clean</a></li>
+<li><a href="#orged47217">4.2. Basic analysis:</a>
 <ul>
-<li><a href="#orgd722046">4.2.1. Coffee Intake vs Sleep<sub>Hours</sub></a></li>
-<li><a href="#org2c75002">4.2.2. BMI Range</a></li>
-<li><a href="#org093d76b">4.2.3. Considering other substances</a></li>
-<li><a href="#org131f263">4.2.4. Coffee Gender Gap?</a></li>
+<li><a href="#org859fd2e">4.2.1. Coffee Intake vs Sleep Hours</a></li>
+<li><a href="#org49eb082">4.2.2. BMI Range</a></li>
+<li><a href="#org3f00f0a">4.2.3. Considering other substances</a></li>
+<li><a href="#orge85dad5">4.2.4. Coffee Gender Gap?</a></li>
 </ul>
 </li>
-<li><a href="#org853844d">4.3. Export an improved Dataset</a></li>
+<li><a href="#orga604224">4.3. Export an improved Dataset</a></li>
 </ul>
 </li>
-<li><a href="#org747f6b9">5. Python Visualization</a>
+<li><a href="#org80e4b62">5. Python Visualization</a>
 <ul>
-<li><a href="#org953f1ea">5.1. Handling Virtual Environments</a></li>
-<li><a href="#org3451ad1">5.2. Dynamic Plotting with Plotly</a></li>
+<li><a href="#orged7122e">5.1. Handling Virtual Environments</a></li>
+<li><a href="#org5d9a394">5.2. Dynamic Plotting with Plotly</a></li>
 </ul>
 </li>
-<li><a href="#org7fd476a">6. Python Random Forest Model</a></li>
-<li><a href="#orgbf06fde">7. Generating a Report via typesetting</a></li>
+<li><a href="#orgc64f27e">6. Python Random Forest Model</a></li>
+<li><a href="#orga7a5a11">7. Generating a Report via typesetting</a></li>
 </ul>
 </div>
 </div>
@@ -59,13 +59,16 @@
 I thought a Kaggle dataset could be a good example, since I don&rsquo;t have any background in medicine, I needed some filler.
 <a href="https://www.kaggle.com/datasets/uom190346a/global-coffee-health-dataset/code">Link to Data Source</a>
 </p>
-<div id="outline-container-org499df6a" class="outline-2">
-<h2 id="org499df6a"><span class="section-number-2">1.</span> Relevant Org Header Arguments</h2>
+<div id="outline-container-orgc6bef49" class="outline-2">
+<h2 id="orgc6bef49"><span class="section-number-2">1.</span> Relevant Org Header Arguments</h2>
 <div class="outline-text-2" id="text-1">
-<pre class="example" id="org82080e1">
+<pre class="example" id="orgaed69c2">
 #+PROPERTY: header-args:R :session *R-lang* :results output
 #+PROPERTY: header-args:python :session *py-lang* :results output
 #+PROPERTY: header-args:bash :results silent
+
+To Control whether your output makes it to the HTML doc or is supressed:
+... :exports both
 </pre>
 
 <p>
@@ -76,19 +79,19 @@ to the behavior of R, Python, and our Bash while the program runs. In general, b
 <p>
 Properties can also be defined on a sub-tree level with drawers, which is particularly clean as the tasks grow in complexity:
 </p>
-<pre class="example" id="org5c771c9">
+<pre class="example" id="orgd440f53">
 :PROPERTIES:
 :header-args:    :cache yes
 :END:
 </pre>
 
 <p>
-Sometimes, it&rsquo;s better to define custom behavior per cell block, which is also possible, as we did when verifying the <a href="#orgc315ec5">R version</a>.
+Sometimes, it&rsquo;s better to define custom behavior per cell block, which is also possible, as we did when verifying the <a href="#org36a2451">R version</a>.
 </p>
 </div>
 </div>
-<div id="outline-container-orge809f02" class="outline-2">
-<h2 id="orge809f02"><span class="section-number-2">2.</span> Dowloading the dataset with cURL:</h2>
+<div id="outline-container-org75e1872" class="outline-2">
+<h2 id="org75e1872"><span class="section-number-2">2.</span> Dowloading the dataset with cURL:</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 Since we&rsquo;ll be working with BASH here several times, let&rsquo;s just define for this entire level that the results should be output to code blocks:
@@ -110,6 +113,32 @@ How do I&#x2026;
 <pre class="src src-bash">unzip --help
 </pre>
 </div>
+
+<pre class="example" id="org537269e">
+UnZip 6.00 of 20 April 2009, by Debian. Original by Info-ZIP.
+
+Usage: unzip [-Z] [-opts[modifiers]] file[.zip] [list] [-x xlist] [-d exdir]
+  Default action is to extract files in list, except those in xlist, to exdir;
+  file[.zip] may be a wildcard.  -Z =&gt; ZipInfo mode ("unzip -Z" for usage).
+
+  -p  extract files to pipe, no messages     -l  list files (short format)
+  -f  freshen existing files, create none    -t  test compressed archive data
+  -u  update files, create if necessary      -z  display archive comment only
+  -v  list verbosely/show version info       -T  timestamp archive to latest
+  -x  exclude files that follow (in xlist)   -d  extract files into exdir
+modifiers:
+  -n  never overwrite existing files         -q  quiet mode (-qq =&gt; quieter)
+  -o  overwrite files WITHOUT prompting      -a  auto-convert any text files
+  -j  junk paths (do not make directories)   -aa treat ALL files as text
+  -U  use escapes for all non-ASCII Unicode  -UU ignore any Unicode fields
+  -C  match filenames case-insensitively     -L  make (some) names lowercase
+  -X  restore UID/GID info                   -V  retain VMS version numbers
+  -K  keep setuid/setgid/tacky permissions   -M  pipe through "more" pager
+See "unzip -hh" or unzip.txt for more help.  Examples:
+  unzip data1 -x joe   =&gt; extract all files except joe from zipfile data1.zip
+  unzip -p foo | more  =&gt; send contents of foo.zip via pipe into program more
+  unzip -fo foo ReadMe =&gt; quietly replace existing ReadMe if archive file newer
+</pre>
 
 <p>
 I&rsquo;ve learned the hard way, it&rsquo;s best practice to VERIFY the data integrity before getting started&#x2026;
@@ -141,22 +170,27 @@ Archive:  global-coffee-health-dataset.zip
 </pre>
 </div>
 </div>
-<div id="outline-container-org88a418b" class="outline-2">
-<h2 id="org88a418b"><span class="section-number-2">3.</span> Environment Inspection</h2>
+<div id="outline-container-orge7697be" class="outline-2">
+<h2 id="orge7697be"><span class="section-number-2">3.</span> Environment Inspection</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 As is good practice, let&rsquo;s inspect our environment before beginning, verifying that versions of R, Python, and any other dependencies (i.e. the package containing the dataset) match up with the results of the example project. <code>Org mode</code> has our back:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-bash" id="orgc315ec5">R --version | head -n 1
+<pre class="src src-bash" id="orgab48def">R --version | head -n 1
 </pre>
 </div>
+
+<pre class="example">
+R version 4.5.0 (2025-04-11) -- "How About a Twenty-Six"
+</pre>
+
 
 <p>
 There are also some R dependencies that are necessary:
 </p>
-<pre class="example" id="org7d29c71">
+<pre class="example" id="orge3602a5">
 # packages can be installed from a list:
 install.packages(c("remotes", "tidyverse", "hrbrthemes", "extrafont"))
 
@@ -180,22 +214,31 @@ It&rsquo;s also a good idea to make sure Emacs and Org are up to the task, since
 </pre>
 </div>
 
+<pre class="example">
+ESS is installed.
+</pre>
+
+
 <p>
 Let&rsquo;s also check the <code>Python</code> version:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-bash" id="org95e40d9">python --version
+<pre class="src src-bash" id="org98dc87d">python --version
+</pre>
+</div>
+
+<pre class="example">
+Python 3.13.5
 </pre>
 </div>
 </div>
-</div>
-<div id="outline-container-orgaf37666" class="outline-2">
-<h2 id="orgaf37666"><span class="section-number-2">4.</span> Data Wrangling in R</h2>
+<div id="outline-container-orgf8061c5" class="outline-2">
+<h2 id="orgf8061c5"><span class="section-number-2">4.</span> Data Wrangling in R</h2>
 <div class="outline-text-2" id="text-4">
 </div>
-<div id="outline-container-orgb420ebe" class="outline-3">
-<h3 id="orgb420ebe"><span class="section-number-3">4.1.</span> Load and Clean</h3>
+<div id="outline-container-orgded529d" class="outline-3">
+<h3 id="orgded529d"><span class="section-number-3">4.1.</span> Load and Clean</h3>
 <div class="outline-text-3" id="text-4-1">
 <div class="org-src-container">
 <pre class="src src-R"><span style="color: #a9a1e1;">library</span>(tidyverse)
@@ -206,7 +249,7 @@ df <span style="color: #a9a1e1;">%&gt;%</span> str()
 </pre>
 </div>
 
-<pre class="example" id="org7712272">
+<pre class="example" id="orga3e6018">
 'data.frame':	10000 obs. of  16 variables:
  $ ID                     : int  1 2 3 4 5 6 7 8 9 10 ...
  $ Age                    : int  40 33 42 53 32 32 53 44 29 41 ...
@@ -240,12 +283,12 @@ A few of these things seem like stuff that shouldn&rsquo;t matter (playing docto
 </div>
 
 <p>
-It&rsquo;s also good to convert Smoking and Alcohol<sub>Consumption</sub> to factors rather than boolean (actually integers):
+It&rsquo;s also good to convert Smoking and Alcohol Consumption to factors rather than boolean (actually integers):
 We could&rsquo;ve used tryLogical on <code>read.csv</code> if they&rsquo;d have used F/T or FALSE, TRUE instead&#x2026; Plea to anyone creating dataframes&#x2026;
 </p>
 
 <div class="org-src-container">
-<pre class="src src-R" id="org2e2bc3b">df <span style="color: #a9a1e1;">&lt;-</span> df <span style="color: #a9a1e1;">%&gt;%</span> mutate(
+<pre class="src src-R" id="org7189a11">df <span style="color: #a9a1e1;">&lt;-</span> df <span style="color: #a9a1e1;">%&gt;%</span> mutate(
          Smoking = as.logical(Smoking),
          Alcohol_Consumption = as.logical(Alcohol_Consumption)
        )
@@ -253,15 +296,15 @@ We could&rsquo;ve used tryLogical on <code>read.csv</code> if they&rsquo;d have 
 </div>
 </div>
 </div>
-<div id="outline-container-orgbacabfb" class="outline-3">
-<h3 id="orgbacabfb"><span class="section-number-3">4.2.</span> Basic analysis:</h3>
+<div id="outline-container-orged47217" class="outline-3">
+<h3 id="orged47217"><span class="section-number-3">4.2.</span> Basic analysis:</h3>
 <div class="outline-text-3" id="text-4-2">
 <p>
 Honestly, I take advantage of split-screen mode and a REPL for this step, then I put code in src blocks later down below.
 </p>
 </div>
-<div id="outline-container-orgd722046" class="outline-4">
-<h4 id="orgd722046"><span class="section-number-4">4.2.1.</span> Coffee Intake vs Sleep<sub>Hours</sub></h4>
+<div id="outline-container-org859fd2e" class="outline-4">
+<h4 id="org859fd2e"><span class="section-number-4">4.2.1.</span> Coffee Intake vs Sleep Hours</h4>
 <div class="outline-text-4" id="text-4-2-1">
 <p>
 First, the graphics need a place to live:
@@ -305,7 +348,7 @@ df <span style="color: #a9a1e1;">%&gt;%</span>
 </div>
 
 
-<div id="org49b93fc" class="figure">
+<div id="org0a52307" class="figure">
 <p><img src="output/coffee_vs_sleep.png" alt="coffee_vs_sleep.png" />
 </p>
 </div>
@@ -315,8 +358,8 @@ We definitely should save that, but let&rsquo;s mark that todo later. <code>C-c 
 </p>
 </div>
 </div>
-<div id="outline-container-org2c75002" class="outline-4">
-<h4 id="org2c75002"><span class="section-number-4">4.2.2.</span> BMI Range</h4>
+<div id="outline-container-org49eb082" class="outline-4">
+<h4 id="org49eb082"><span class="section-number-4">4.2.2.</span> BMI Range</h4>
 <div class="outline-text-4" id="text-4-2-2">
 <p>
 18.5 -&gt; 24.9 is considered healthy.
@@ -376,7 +419,7 @@ summary(df$Body_Condition)
 
 <pre class="example">
 high    low normal 
-4172    819   5009
+  4172    819   5009
 </pre>
 
 
@@ -405,13 +448,13 @@ There should probably be a table of that for the final report.
 </div>
 
 
-<div id="org8364953" class="figure">
+<div id="orga7c41e0" class="figure">
 <p><img src="output/body_conditions.png" alt="body_conditions.png" />
 </p>
 </div>
 
 <p>
-Graphs also show that body<sub>condition</sub> doesn&rsquo;t change the amount of coffee taken in. Somewhat interesting because I&rsquo;d think like other substances, heavier and lighter people need more/less. This is synthetic data, maybe we can cast doubt on it with this result?
+Graphs also show that body condition doesn&rsquo;t change the amount of coffee taken in. Somewhat interesting because I&rsquo;d think like other substances, heavier and lighter people need more/less. This is synthetic data, maybe we can cast doubt on it with this result?
 </p>
 
 <div class="org-src-container">
@@ -440,14 +483,14 @@ ggplot(df, aes(x = Body_Condition, y = Coffee_Intake, fill = Body_Condition)) +
 </div>
 
 
-<div id="org2addd9f" class="figure">
+<div id="org6820073" class="figure">
 <p><img src="output/coffee_vs_body_cond.png" alt="coffee_vs_body_cond.png" />
 </p>
 </div>
 </div>
 </div>
-<div id="outline-container-org093d76b" class="outline-4">
-<h4 id="org093d76b"><span class="section-number-4">4.2.3.</span> Considering other substances</h4>
+<div id="outline-container-org3f00f0a" class="outline-4">
+<h4 id="org3f00f0a"><span class="section-number-4">4.2.3.</span> Considering other substances</h4>
 <div class="outline-text-4" id="text-4-2-3">
 <p>
 For both smoking and alcohol, there are fewer who do than don&rsquo;t. Good to know, because that&rsquo;d throw off our charts/analysis.
@@ -501,7 +544,7 @@ df <span style="color: #a9a1e1;">%&gt;%</span>
 </div>
 
 
-<div id="org854f2f6" class="figure">
+<div id="orgdf0c78c" class="figure">
 <p><img src="output/smoking_alcohol_moasic.png" alt="smoking_alcohol_moasic.png" />
 </p>
 </div>
@@ -527,7 +570,7 @@ ggplot(df, aes(x = Caffeine_mg, y = Heart_Rate)) +
 </div>
 
 
-<div id="org9503b4a" class="figure">
+<div id="org7bc59c6" class="figure">
 <p><img src="output/heart_rate_caffeine.png" alt="heart_rate_caffeine.png" />
 </p>
 </div>
@@ -537,8 +580,8 @@ I think it&rsquo;s interesting there&rsquo;s no correlation here, because my exp
 </p>
 </div>
 </div>
-<div id="outline-container-org131f263" class="outline-4">
-<h4 id="org131f263"><span class="section-number-4">4.2.4.</span> Coffee Gender Gap?</h4>
+<div id="outline-container-orge85dad5" class="outline-4">
+<h4 id="orge85dad5"><span class="section-number-4">4.2.4.</span> Coffee Gender Gap?</h4>
 <div class="outline-text-4" id="text-4-2-4">
 <p>
 Looks like gals like Coffee just as much as men.
@@ -562,15 +605,15 @@ ggplot(df, aes(x = Coffee_Intake, fill = Gender)) +
 </div>
 
 
-<div id="org7d4788a" class="figure">
+<div id="orgdd0f190" class="figure">
 <p><img src="output/coffee_gender_density.png" alt="coffee_gender_density.png" />
 </p>
 </div>
 </div>
 </div>
 </div>
-<div id="outline-container-org853844d" class="outline-3">
-<h3 id="org853844d"><span class="section-number-3">4.3.</span> Export an improved Dataset</h3>
+<div id="outline-container-orga604224" class="outline-3">
+<h3 id="orga604224"><span class="section-number-3">4.3.</span> Export an improved Dataset</h3>
 <div class="outline-text-3" id="text-4-3">
 <p>
 Now that we&rsquo;ve done basic EDA, we can export this (hopefully) improved CSV and move on over to Python to do some more dynamic stuff in a larger ecosystem.
@@ -601,18 +644,18 @@ Look what got done with just a little bit of work in R:
 </div>
 </div>
 </div>
-<div id="outline-container-org747f6b9" class="outline-2">
-<h2 id="org747f6b9"><span class="section-number-2">5.</span> Python Visualization</h2>
+<div id="outline-container-org80e4b62" class="outline-2">
+<h2 id="org80e4b62"><span class="section-number-2">5.</span> Python Visualization</h2>
 <div class="outline-text-2" id="text-5">
 </div>
-<div id="outline-container-org953f1ea" class="outline-3">
-<h3 id="org953f1ea"><span class="section-number-3">5.1.</span> Handling Virtual Environments</h3>
+<div id="outline-container-orged7122e" class="outline-3">
+<h3 id="orged7122e"><span class="section-number-3">5.1.</span> Handling Virtual Environments</h3>
 <div class="outline-text-3" id="text-5-1">
 <p>
 A quick note on Python and virtual environments:
 For this example, I installed <code>python.pandas</code> using <code>apt</code> at the os-level, but supposedly it&rsquo;s very doable to point Babel/Org at a virtualenv version of Python (which is very commonly used, particularly in Git workflows):
 </p>
-<pre class="example" id="orgec5cdbf">
+<pre class="example" id="orga11ca2f">
 Either specify it file-wide...
 #+PROPERTY: header-args:python :python "/path/to/your/venv/bin/python"
 
@@ -633,11 +676,11 @@ uv add pandas
 </div>
 </div>
 </div>
-<div id="outline-container-org3451ad1" class="outline-3">
-<h3 id="org3451ad1"><span class="section-number-3">5.2.</span> Dynamic Plotting with Plotly</h3>
+<div id="outline-container-org5d9a394" class="outline-3">
+<h3 id="org5d9a394"><span class="section-number-3">5.2.</span> Dynamic Plotting with Plotly</h3>
 <div class="outline-text-3" id="text-5-2">
 <p>
-Like shown in the above <a href="#org953f1ea">notes</a>, I&rsquo;m now pointing Python at the virtualenv where I installed plotly and pandas.
+Like shown in the above <a href="#orged7122e">notes</a>, I&rsquo;m now pointing Python at the virtualenv where I installed plotly and pandas.
 </p>
 <div class="org-src-container">
 <pre class="src src-python"><span style="color: #51afef;">import</span> plotly.express <span style="color: #51afef;">as</span> px
@@ -666,11 +709,11 @@ It sure looks to me like sleep is a primary factor determining health issues, wi
 </div>
 </div>
 </div>
-<div id="outline-container-org7fd476a" class="outline-2">
-<h2 id="org7fd476a"><span class="section-number-2">6.</span> Python Random Forest Model</h2>
+<div id="outline-container-orgc64f27e" class="outline-2">
+<h2 id="orgc64f27e"><span class="section-number-2">6.</span> Python Random Forest Model</h2>
 <div class="outline-text-2" id="text-6">
 <div class="org-src-container">
-<pre class="src src-bash" id="org110e0e1">uv add scikit-learn
+<pre class="src src-bash" id="org933d869">uv add scikit-learn
 uv add matplotlib
 </pre>
 </div>
@@ -708,7 +751,7 @@ model.fit(X_train, y_train)
 </div>
 
 <pre class="example">
-Accuracy: 1.00
+Accuracy: 0.99
 </pre>
 
 
@@ -730,12 +773,12 @@ Let&rsquo;s get a classification report:
               precision    recall  f1-score   support
 
         Mild       1.00      1.00      1.00       720
-    Moderate       0.99      0.97      0.98        88
+    Moderate       0.98      0.97      0.97        88
       Severe       1.00      1.00      1.00         4
 
-    accuracy                           1.00       812
+    accuracy                           0.99       812
    macro avg       0.99      0.99      0.99       812
-weighted avg       1.00      1.00      1.00       812
+weighted avg       0.99      0.99      0.99       812
 </pre>
 
 
@@ -762,12 +805,16 @@ plt.show()
 </div>
 
 <p width="50%" align="right">
-<a href="file:///home/matthew/Desktop/workshop-presentation/img/feature_importances.png" width="50%" align="right">fig: feature importances</a>
+<a href="./img/feature_importances.png" width="50%" align="right">Image Importances</a>
+</p>
+
+<p>
+Notice in this case, org is smart enough to realize this very high-def photo will not fit well here, so it chooses to display the link instead in the HTML export. Nice!
 </p>
 </div>
 </div>
-<div id="outline-container-orgbf06fde" class="outline-2">
-<h2 id="orgbf06fde"><span class="section-number-2">7.</span> Generating a Report via typesetting</h2>
+<div id="outline-container-orga7a5a11" class="outline-2">
+<h2 id="orga7a5a11"><span class="section-number-2">7.</span> Generating a Report via typesetting</h2>
 <div class="outline-text-2" id="text-7">
 <p>
 Link: <a href="report.typ">report</a>
@@ -796,7 +843,7 @@ Emphasis that this is just an example, not anything I&rsquo;ve proofread or plan
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Matthew Younger</p>
-<p class="date">Created: 2026-01-12 Mon 17:49</p>
+<p class="date">Created: 2026-01-13 Tue 17:59</p>
 </div>
 </body>
 </html>

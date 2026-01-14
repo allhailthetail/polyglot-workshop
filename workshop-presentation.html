@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-01-12 Mon 17:49 -->
+<!-- 2026-01-13 Tue 17:59 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>&lrm;</title>
@@ -26,69 +26,85 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orgc3e7381">1. Why use FOSS?</a></li>
-<li><a href="#org895226b">2. What is Emacs&#x2026; Really?</a></li>
-<li><a href="#orgc1ce55b">3. Why is Emacs unpopular?</a></li>
-<li><a href="#org1240e99">4. Why (not) Linux?</a>
+<li><a href="#orgd2eb6e7">1. Abstract/Overview</a></li>
+<li><a href="#org3685f75">2. Why use Emacs, Linux, &amp; FOSS?</a></li>
+<li><a href="#org52bc8a8">3. What is Emacs&#x2026; Really?</a></li>
+<li><a href="#org3a982e9">4. Why is Emacs unpopular?</a></li>
+<li><a href="#org3c4ddf0">5. Why (not) Linux?</a>
 <ul>
-<li><a href="#orga80ad50">4.1. Practical examples</a>
+<li><a href="#org529e439">5.1. Practical examples</a>
 <ul>
-<li><a href="#orgacbae56">4.1.1. Package Management</a></li>
-<li><a href="#orgc8392eb">4.1.2. Automating/notetaking of complex tasks</a></li>
-<li><a href="#org7b42293">4.1.3. Configure the working directory for a project:</a></li>
+<li><a href="#orgb2694ea">5.1.1. Package Management</a></li>
+<li><a href="#org8e34fed">5.1.2. Automating/notetaking of complex tasks</a></li>
+<li><a href="#orgec903c6">5.1.3. Configure the working directory for a project:</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#org4a3d78e">5. Basic emacs</a>
+<li><a href="#orgb8452a9">6. Basic Emacs</a>
 <ul>
-<li><a href="#orga57d6f4">5.1. Day 1 plan (What I wish I&rsquo;d have known)</a></li>
-<li><a href="#orgb73e454">5.2. Learning the terminology</a>
+<li><a href="#org4624b66">6.1. Doom Emacs</a></li>
+<li><a href="#org7c4d8e2">6.2. Day 1 What I wish I&rsquo;d have known</a></li>
+<li><a href="#orgca372f6">6.3. Day 2 - Learning the terminology</a>
 <ul>
-<li><a href="#orgce91732">5.2.1. Theory of Movement</a></li>
-<li><a href="#orgf398814">5.2.2. Modes</a></li>
-<li><a href="#org4590bcc">5.2.3. Copying/pasting text</a></li>
-<li><a href="#org02b7642">5.2.4. Moving around</a></li>
+<li><a href="#orgd92e056">6.3.1. Theory of Movement</a></li>
+<li><a href="#org002f832">6.3.2. Modes</a></li>
+<li><a href="#org99b2e5f">6.3.3. Killing and Yanking Text (Copy/Paste)</a></li>
+<li><a href="#org370e733">6.3.4. Moving around</a></li>
 </ul>
 </li>
-<li><a href="#org55244b0">5.3. Much-needed terminal upgrade</a></li>
-<li><a href="#org2325d8d">5.4. Doom Emacs</a></li>
-<li><a href="#orgcb25fce">5.5. Links to More Tips</a></li>
+<li><a href="#org3346400">6.4. Much-needed terminal upgrade</a></li>
+<li><a href="#org782ed7d">6.5. Links to More Tips</a></li>
 </ul>
 </li>
-<li><a href="#orgec0a051">6. Advanced Tools</a></li>
-<li><a href="#org3d0cbdd">7. Practical Intro to Elisp</a>
+<li><a href="#org172a2eb">7. Advanced Tools</a></li>
+<li><a href="#orgc3a4ddf">8. Practical Intro to Elisp</a>
 <ul>
-<li><a href="#org761198c">7.1. Change to a light theme:</a></li>
-<li><a href="#orgf988a76">7.2. Enlarge text:</a></li>
-<li><a href="#orgb726a22">7.3. Putting it together into a function:</a></li>
+<li><a href="#orgda02cad">8.1. Change to a light theme:</a></li>
+<li><a href="#orgc373663">8.2. Enlarge text:</a></li>
+<li><a href="#org6b727cf">8.3. Putting it together into a function:</a></li>
 </ul>
 </li>
-<li><a href="#org88bd744">8. Org Mode</a>
+<li><a href="#org83595d4">9. Org Mode</a>
 <ul>
-<li><a href="#org6771e5d">8.1. What is it?</a></li>
-<li><a href="#orgd254a86">8.2. Polyglot (literate) Programming</a></li>
-<li><a href="#org97ee865">8.3. Sharing with others (exporting)</a>
+<li><a href="#org8f6d3b4">9.1. What is it?</a></li>
+<li><a href="#org5c7f77e">9.2. Polyglot (literate) Programming</a></li>
+<li><a href="#org9383f5f">9.3. Sharing with others (exporting)</a>
 <ul>
-<li><a href="#orgf5a508f">8.3.1. Exporting to HTML (best)</a></li>
-<li><a href="#orgf668419">8.3.2. Ox-exporter</a></li>
+<li><a href="#orgd54fbbc">9.3.1. Exporting to HTML (best)</a></li>
+<li><a href="#org886104a">9.3.2. Ox-exporter</a></li>
 </ul>
 </li>
-<li><a href="#orga3208d8">8.4. Babel</a></li>
+<li><a href="#org0dc50e3">9.4. Babel</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </div>
-<div id="outline-container-orgc3e7381" class="outline-2">
-<h2 id="orgc3e7381"><span class="section-number-2">1.</span> Why use FOSS?</h2>
+<div id="outline-container-orgd2eb6e7" class="outline-2">
+<h2 id="orgd2eb6e7"><span class="section-number-2">1.</span> Abstract/Overview</h2>
 <div class="outline-text-2" id="text-1">
+<p>
+Modern data science increasingly requires the integration of disparate tools, ranging from Python and R for analysis, Bash for system-level automation, and finally typesetting languages for generating final reports. This presentation explores using GNU Emacs and Org-mode as a polyglot notebook to aptly consolidate the research process under one roof.
+</p>
+
+<p>
+In addition to the many tips and tricks which aim to streamline the adoption of the tools and methodologies herein, this presentation also contains a practical example of polyglot programming in action, from start to finish. The resulting data and files are readily hosted and properly integrated on a Git platform, properly versioned, openly accessible and freely reproducible from plaintext, whilst also being viewable on nearly any device or platform via ubiquitous HTML and PDF - with minimal additional effort.
+</p>
+</div>
+</div>
+<div id="outline-container-org3685f75" class="outline-2">
+<h2 id="org3685f75"><span class="section-number-2">2.</span> Why use Emacs, Linux, &amp; FOSS?</h2>
+<div class="outline-text-2" id="text-2">
 <ul class="org-ul">
-<li>Avoid proprietary &ldquo;black box&rdquo; tools.
-Transparency</li>
+<li>Avoid proprietary &ldquo;black box&rdquo; tools | Transparency.</li>
+<li>Hardware longevity
+Almost everyone has old PC&rsquo;s sitting around, which are great for Linux.
+You&rsquo;ll be surprised how well it runs on so little vs proprietary stuff.
+My PC is 5+ years old, runs great on RPi&rsquo;s also, exp rev5.</li>
 <li>Power of Plaintext over proprietary tools
 Accessible long-term, available to more users, no lock-in.</li>
-<li>Everything in one place
+<li>Emacs puts everything in one place
 <ol class="org-ol">
 <li>Editor</li>
 <li>File browser/manager</li>
@@ -98,19 +114,15 @@ Accessible long-term, available to more users, no lock-in.</li>
 <li>To-Do lists, calendar</li>
 <li>Easy exportability of files to .html, .pdf, etc.</li>
 </ol></li>
-<li>Hardware longevity
-Almost everyone has old PC&rsquo;s sitting around, which are great for Linux.
-You&rsquo;ll be surprised how well it runs on so little vs proprietary stuff.
-My PC is 5+ years old, runs great on RPi&rsquo;s also.</li>
 <li>Malleable software
 Modify to your heart&rsquo;s content or build your own.
 <code>transform what you do into a craft...</code></li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org895226b" class="outline-2">
-<h2 id="org895226b"><span class="section-number-2">2.</span> What is Emacs&#x2026; Really?</h2>
-<div class="outline-text-2" id="text-2">
+<div id="outline-container-org52bc8a8" class="outline-2">
+<h2 id="org52bc8a8"><span class="section-number-2">3.</span> What is Emacs&#x2026; Really?</h2>
+<div class="outline-text-2" id="text-3">
 <blockquote>
 <p>
 &ldquo;&#x2026; A magpie&rsquo;s nest of shiny things&#x2026;&rdquo;
@@ -139,9 +151,9 @@ Modify to your heart&rsquo;s content or build your own.
 </ul>
 </div>
 </div>
-<div id="outline-container-orgc1ce55b" class="outline-2">
-<h2 id="orgc1ce55b"><span class="section-number-2">3.</span> Why is Emacs unpopular?</h2>
-<div class="outline-text-2" id="text-3">
+<div id="outline-container-org3a982e9" class="outline-2">
+<h2 id="org3a982e9"><span class="section-number-2">4.</span> Why is Emacs unpopular?</h2>
+<div class="outline-text-2" id="text-4">
 <ul class="org-ul">
 <li>Poor support for Windows
 <ul class="org-ul">
@@ -173,9 +185,9 @@ In other words, &ldquo;Full disclosure, leveraging emacs <span class="underline"
 </ul>
 </div>
 </div>
-<div id="outline-container-org1240e99" class="outline-2">
-<h2 id="org1240e99"><span class="section-number-2">4.</span> Why (not) Linux?</h2>
-<div class="outline-text-2" id="text-4">
+<div id="outline-container-org3c4ddf0" class="outline-2">
+<h2 id="org3c4ddf0"><span class="section-number-2">5.</span> Why (not) Linux?</h2>
+<div class="outline-text-2" id="text-5">
 <ul class="org-ul">
 <li>Customizability
 <span class="underline">You&rsquo;re in total, absolute control in profound ways&#x2026;</span></li>
@@ -186,19 +198,24 @@ In other words, &ldquo;Full disclosure, leveraging emacs <span class="underline"
 <li>Hardware compatibility and helpful resources have never been as good as they are now.</li>
 </ul>
 </div>
-<div id="outline-container-orga80ad50" class="outline-3">
-<h3 id="orga80ad50"><span class="section-number-3">4.1.</span> Practical examples</h3>
-<div class="outline-text-3" id="text-4-1">
+<div id="outline-container-org529e439" class="outline-3">
+<h3 id="org529e439"><span class="section-number-3">5.1.</span> Practical examples</h3>
+<div class="outline-text-3" id="text-5-1">
 </div>
-<div id="outline-container-orgacbae56" class="outline-4">
-<h4 id="orgacbae56"><span class="section-number-4">4.1.1.</span> Package Management</h4>
-<div class="outline-text-4" id="text-4-1-1">
+<div id="outline-container-orgb2694ea" class="outline-4">
+<h4 id="orgb2694ea"><span class="section-number-4">5.1.1.</span> Package Management</h4>
+<div class="outline-text-4" id="text-5-1-1">
 <div class="org-src-container">
 <pre class="src src-bash">apt show emacs | <span style="color: #ECBE7B;">grep</span> Version
 </pre>
 </div>
 
-<pre class="example" id="org58c68fc">
+<pre class="example">
+Version: 1:30.1+1-6
+</pre>
+
+
+<pre class="example" id="org4065e39">
 sudo apt install r-base
 </pre>
 
@@ -209,10 +226,9 @@ All of the instructions for <i>how</i> to do a particular task can be laid out c
 </blockquote>
 </div>
 </div>
-<div id="outline-container-orgc8392eb" class="outline-4">
-<h4 id="orgc8392eb"><span class="section-number-4">4.1.2.</span> Automating/notetaking of complex tasks</h4>
-<div class="outline-text-4" id="text-4-1-2">
-<blockquote>
+<div id="outline-container-org8e34fed" class="outline-4">
+<h4 id="org8e34fed"><span class="section-number-4">5.1.2.</span> Automating/notetaking of complex tasks</h4>
+<div class="outline-text-4" id="text-5-1-2">
 <p>
 Following the DRY (don&rsquo;t repeat yourself) methodology:
 it&rsquo;s best to automate routine things that are done a lot. I spent a lot of time running and re-running a series of tasks
@@ -224,14 +240,13 @@ Maybe there&rsquo;s a routine that we want to run a lot that&rsquo;d sure be han
 </p>
 
 <p>
-&#x2014;
-</p>
-
-<p>
 Here, org babel and tangle (with permission options) can be used to send scripts straight to a user&rsquo;s directory.
 Potentially very handy if you&rsquo;re on a team and the one responsible for documention how to do compelx tasks&#x2026;
 </p>
-</blockquote>
+
+<p>
+I can even go so far as to specify adding <b>execute</b> permissions, which is a bit scary&#x2026;
+</p>
 
 <div class="org-src-container">
 <pre class="src src-bash"><span style="color: #5B6268;">#</span><span style="color: #5B6268;">!/bin/</span><span style="color: #51afef;">zsh</span><span style="color: #5B6268;">
@@ -257,10 +272,10 @@ your scripts are well-documented, yet the context for what it does doesn&rsquo;t
 </blockquote>
 </div>
 </div>
-<div id="outline-container-org7b42293" class="outline-4">
-<h4 id="org7b42293"><span class="section-number-4">4.1.3.</span> Configure the working directory for a project:</h4>
-<div class="outline-text-4" id="text-4-1-3">
-<pre class="example" id="orgc8d17db">
+<div id="outline-container-orgec903c6" class="outline-4">
+<h4 id="orgec903c6"><span class="section-number-4">5.1.3.</span> Configure the working directory for a project:</h4>
+<div class="outline-text-4" id="text-5-1-3">
+<pre class="example" id="org6edadff">
   mkdir -p plots/general                          # to store plots...
   mkdir -p plots/waveforms/{initial,denoised}     # to store initial waveforms
   mkdir -p plots/waveforms/anf                    # .. for notch filtered audio
@@ -270,17 +285,57 @@ your scripts are well-documented, yet the context for what it does doesn&rsquo;t
   mkdir -p csv/                                   # to store generated CSVs.
   mkdir -p out/{anf,bworth}                       # to store generated wavs
 </pre>
+
+<p>
+In this example, I needed these directories for my project, but I didn&rsquo;t want to have to deal with manually creating them each time I cloned the repo. Unlike the script example (above) I don&rsquo;t have a use for this outside the project itself. So, this is a perfect use case to <i>embed the BASH script directly into the project itself.</i>
+</p>
 </div>
 </div>
 </div>
 </div>
-<div id="outline-container-org4a3d78e" class="outline-2">
-<h2 id="org4a3d78e"><span class="section-number-2">5.</span> Basic emacs</h2>
-<div class="outline-text-2" id="text-5">
+<div id="outline-container-orgb8452a9" class="outline-2">
+<h2 id="orgb8452a9"><span class="section-number-2">6.</span> Basic Emacs</h2>
+<div class="outline-text-2" id="text-6">
 </div>
-<div id="outline-container-orga57d6f4" class="outline-3">
-<h3 id="orga57d6f4"><span class="section-number-3">5.1.</span> Day 1 plan (What I wish I&rsquo;d have known)</h3>
-<div class="outline-text-3" id="text-5-1">
+<div id="outline-container-org4624b66" class="outline-3">
+<h3 id="org4624b66"><span class="section-number-3">6.1.</span> Doom Emacs</h3>
+<div class="outline-text-3" id="text-6-1">
+<ul class="org-ul">
+<li>Curated defaults and &ldquo;sane&rdquo; settings, rather than fight generic GNU defaults <i>and</i> learn simultaneously.
+<ul class="org-ul">
+<li><a href="https://github.com/minad/corfu">Corfu</a>
+Text completion back-end (pop-down for spelling, etc)</li>
+<li><a href="https://github.com/magit/magit">Magit</a>
+Amazing Git integration for Emacs. Worthy of its own tutorial&#x2026;</li>
+<li><a href="https://github.com/bbatsov/projectile">Projectile</a></li>
+<li><a href="https://elpa.gnu.org/packages/which-key.html">Which Key</a>
+Your gateway to finding the shortcuts you can never remember.
+&ldquo;Level II <code>C-h</code>&rdquo;</li>
+<li><a href="https://github.com/Alexander-Miller/treemacs">Treemacs</a></li>
+<li><a href="https://github.com/flycheck/flycheck">Flycheck</a>
+Needs to be enabled in init.el, then run doom sync.</li>
+<li><a href="https://github.com/doomemacs/themes?tab=readme-ov-file#theme-list">Many themes</a></li>
+<li><a href="https://github.com/emacs-evil/evil">Evil Mode</a></li>
+</ul></li>
+<li>Install packages directly from GitHub (if desired)</li>
+<li><p>
+<a href="https://github.com/emacs-evil/evil">emulation Vim</a>
+(Extensible VI Layer)
+</p>
+<blockquote>
+<p>
+As a Linux guru and Systems Engineer, I highly recommend learning vi anyway, since it&rsquo;s the de-facto standard on every server implementation of Linux. You can count on Vi being present on the machine.
+</p>
+</blockquote></li>
+<li>LSP integration</li>
+<li><code>doom doctor</code> assists with possible configuration issues</li>
+<li>Designed with repeatability in mind (i.e. backup to your own Git repo)</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org7c4d8e2" class="outline-3">
+<h3 id="org7c4d8e2"><span class="section-number-3">6.2.</span> Day 1 What I wish I&rsquo;d have known</h3>
+<div class="outline-text-3" id="text-6-2">
 <p>
 &ldquo;Learn how to help yourself.&rdquo;
 </p>
@@ -291,9 +346,10 @@ your scripts are well-documented, yet the context for what it does doesn&rsquo;t
 <ul class="org-ul">
 <li>Emacs Docs</li>
 </ul>
+</blockquote>
 
 <p>
-You&rsquo;ll spend several days/weeks learning to navigate and remember where things are by using <code>C-h</code>&#x2026;
+FAIR DISCLAIMER: you&rsquo;ll spend several days/weeks learning to navigate and remember where things are by using <code>C-h</code>&#x2026;
 As you use it, you&rsquo;ll learn where the <i>things you use and depend on</i> are. (I don&rsquo;t think anyone knows it all&#x2026;)
 This underscores the importance of first learning where to find what you need. Remembering it will come automatically in time.
 </p>
@@ -301,24 +357,20 @@ This underscores the importance of first learning where to find what you need. R
 <p>
 Also&#x2026; <code>&lt;SPC&gt; h-b-b</code> to discover all the current bindings (for wherever you are)
 </p>
-</blockquote>
 </div>
 </div>
-<div id="outline-container-orgb73e454" class="outline-3">
-<h3 id="orgb73e454"><span class="section-number-3">5.2.</span> Learning the terminology</h3>
-<div class="outline-text-3" id="text-5-2">
+<div id="outline-container-orgca372f6" class="outline-3">
+<h3 id="orgca372f6"><span class="section-number-3">6.3.</span> Day 2 - Learning the terminology</h3>
+<div class="outline-text-3" id="text-6-3">
 </div>
-<div id="outline-container-orgce91732" class="outline-4">
-<h4 id="orgce91732"><span class="section-number-4">5.2.1.</span> Theory of Movement</h4>
-<div class="outline-text-4" id="text-5-2-1">
+<div id="outline-container-orgd92e056" class="outline-4">
+<h4 id="orgd92e056"><span class="section-number-4">6.3.1.</span> Theory of Movement</h4>
+<div class="outline-text-4" id="text-6-3-1">
 <ol class="org-ol">
 <li>Frame (windows)
 <ul class="org-ul">
 <li><p>
 Window (frames)
-</p>
-<blockquote>
-<p>
 Splitting windows:
 Horizontally: <code>&lt;SPC&gt;-w-v</code>
 Vertically: <code>&lt;SPC-w-s</code>
@@ -331,8 +383,7 @@ Move cursor up one window
 <code>&lt;SPC&gt;-w-k</code>
 Move cursor down one window
 <code>&lt;SPC&gt;-w-j</code>
-</p>
-</blockquote></li>
+</p></li>
 </ul></li>
 <li>Workspaces <code>&lt;SPC&gt; &lt;TAB&gt;</code>
 <ul class="org-ul">
@@ -341,9 +392,9 @@ Move cursor down one window
 </ol>
 </div>
 </div>
-<div id="outline-container-orgf398814" class="outline-4">
-<h4 id="orgf398814"><span class="section-number-4">5.2.2.</span> Modes</h4>
-<div class="outline-text-4" id="text-5-2-2">
+<div id="outline-container-org002f832" class="outline-4">
+<h4 id="org002f832"><span class="section-number-4">6.3.2.</span> Modes</h4>
+<div class="outline-text-4" id="text-6-3-2">
 <ol class="org-ol">
 <li>Major mode - behavior (i.e. Org, editing a .py file, etc)</li>
 <li>Minor mode - add-ons (spell-check, formatting, etc)
@@ -354,9 +405,9 @@ I consider this a feature!</li>
 </ol>
 </div>
 </div>
-<div id="outline-container-org4590bcc" class="outline-4">
-<h4 id="org4590bcc"><span class="section-number-4">5.2.3.</span> Copying/pasting text</h4>
-<div class="outline-text-4" id="text-5-2-3">
+<div id="outline-container-org99b2e5f" class="outline-4">
+<h4 id="org99b2e5f"><span class="section-number-4">6.3.3.</span> Killing and Yanking Text (Copy/Paste)</h4>
+<div class="outline-text-4" id="text-6-3-3">
 <blockquote>
 <p>
 Emacs gives you this wonderful revolving door called the <i>kill ring</i>, which keeps (for the session) a continual record of what you copied (inside emacs).
@@ -367,25 +418,33 @@ Text you remove by &ldquo;killing&rdquo; it isn&rsquo;t truly gone, it gets <spa
 <ol class="org-ol">
 <li>&ldquo;Killing&rdquo; text
 <ul class="org-ul">
-<li>&ldquo;Copy&rdquo;/save to kill ring <code>M-w</code></li>
+<li>&ldquo;Cut&rdquo;&amp;save to kill ring <code>M-w</code></li>
 <li>Save <span class="underline">entire line</span> to kill ring <code>&lt;deleteline&gt;</code>
-(CTRL+SHIFT+BACKSPACE)</li>
+(CTRL+SHIFT+BACKSPACE)
+<code>d-d</code></li>
 <li>&ldquo;Cut&rdquo;/kill region <code>C-wxy</code></li>
 <li>Kill region to end of line <code>D</code></li>
+</ul></li>
+<li>Copy text
+<ul class="org-ul">
+<li>Copy this word <code>y-w</code></li>
+</ul></li>
+<li>Paste from the kill-ring
+<ul class="org-ul">
+<li>from kill-ring <code>&lt;spc&gt;-i-y</code>
+(most handy)</li>
+<li>Paste top item in kill ring <code>p</code></li>
 </ul></li>
 </ol>
 </div>
 </div>
-<div id="outline-container-org02b7642" class="outline-4">
-<h4 id="org02b7642"><span class="section-number-4">5.2.4.</span> Moving around</h4>
-<div class="outline-text-4" id="text-5-2-4">
+<div id="outline-container-org370e733" class="outline-4">
+<h4 id="org370e733"><span class="section-number-4">6.3.4.</span> Moving around</h4>
+<div class="outline-text-4" id="text-6-3-4">
 <ul class="org-ul">
 <li><p>
 Evil Snipe
 Snipe and Vim shortcuts are amazingly efficient&#x2026;
-</p>
-<blockquote>
-<p>
 (From move mode, navigate to the line you want to edit on&#x2026;)
 To match on two characters FORWARD: <code>s {type 2 chars to match}</code>
 (subsequent s&rsquo;s move foreward&#x2026;)
@@ -394,7 +453,8 @@ To match on two characters FORWARD: <code>s {type 2 chars to match}</code>
 <p>
 Example:
 I&rsquo;ll have some Spam Eggs Spam
-</p>
+</p></li>
+</ul>
 
 
 <p>
@@ -405,13 +465,10 @@ Spam Eggs Spam some have I&rsquo;ll
 <p>
 (Caveat: subsequent REVERSE serches are done with <code>s</code>, not <code>S</code>)
 </p>
-</blockquote></li>
 
+<ul class="org-ul">
 <li><p>
 Learning VIM bindings:
-</p>
-<blockquote>
-<p>
 To move up, <code>k</code>
 To move down, <code>j</code>
 To move right, <code>l</code>
@@ -452,15 +509,11 @@ i.e. <code>d(</code> deletes the preveious sentence
 Join two lines: <code>J</code>
 line one
 Line two
-</p>
-</blockquote></li>
+</p></li>
 
 <li><p>
 Setting Marks
-</p>
-<blockquote>
-<p>
-markers can be really powerful. Think of them like bookmarks.
+Markers can be really powerful. Think of them like bookmarks.
 (from evil mode) set a mark somewhere in the file. <code>m {some character on kbd}</code> (hint, m is a good, fast option&#x2026;)
 Navigate away, mark again <b>(different character)</b>
 </p>
@@ -472,15 +525,14 @@ TIP: It seems evil always marks the last inserted position with the last mark (`
 
 <p>
 To me, this is almost as handy (maybe more-so for focusing?) than split-pane mode.
-</p>
-</blockquote></li>
+</p></li>
 </ul>
 </div>
 </div>
 </div>
-<div id="outline-container-org55244b0" class="outline-3">
-<h3 id="org55244b0"><span class="section-number-3">5.3.</span> Much-needed terminal upgrade</h3>
-<div class="outline-text-3" id="text-5-3">
+<div id="outline-container-org3346400" class="outline-3">
+<h3 id="org3346400"><span class="section-number-3">6.4.</span> Much-needed terminal upgrade</h3>
+<div class="outline-text-3" id="text-6-4">
 <p>
 Unfortunately, the default terminal(s) that Emacs and Doom ship with are <i>awful.</i> Fix that right away&#x2026;
 </p>
@@ -488,7 +540,7 @@ Unfortunately, the default terminal(s) that Emacs and Doom ship with are <i>awfu
 <p>
 And in your Doom Emacs <code>init.el</code> file:
 </p>
-<pre class="example" id="orgb76a627">
+<pre class="example" id="org307f013">
 ;;init.el
 
 :term
@@ -499,53 +551,17 @@ vterm             ; the best terminal emulation in Emacs
 </pre>
 
 <p>
-While you&rsquo;re here, you might also enable additional <a href="#org983cd71">language support</a>, which Doom makes easy&#x2026;
+While you&rsquo;re here, you might also enable additional <a href="#orgf5f3383">language support</a>, which Doom makes easy&#x2026;
 </p>
 
-<pre class="example" id="org0d98218">
+<pre class="example" id="orgcee0f07">
 sudo apt install libvterm libvterm-dev libtool
 </pre>
 </div>
 </div>
-<div id="outline-container-org2325d8d" class="outline-3">
-<h3 id="org2325d8d"><span class="section-number-3">5.4.</span> Doom Emacs</h3>
-<div class="outline-text-3" id="text-5-4">
-<ul class="org-ul">
-<li>Curated defaults and &ldquo;sane&rdquo; settings, rather than fight generic GNU defaults <i>and</i> learn simultaneously.
-<ul class="org-ul">
-<li><a href="https://github.com/minad/corfu">Corfu</a>
-Text completion back-end (pop-down for spelling, etc)</li>
-<li><a href="https://github.com/magit/magit">Magit</a>
-Amazing Git integration for Emacs. Worthy of its own tutorial&#x2026;</li>
-<li><a href="https://github.com/bbatsov/projectile">Projectile</a></li>
-<li><a href="https://elpa.gnu.org/packages/which-key.html">Which Key</a>
-Your gateway to finding the shortcuts you can never remember.
-&ldquo;Level II <code>C-h</code>&rdquo;</li>
-<li><a href="https://github.com/Alexander-Miller/treemacs">Treemacs</a></li>
-<li><a href="https://github.com/flycheck/flycheck">Flycheck</a>
-Needs to be enabled in init.el, then run doom sync.</li>
-<li><a href="https://github.com/doomemacs/themes?tab=readme-ov-file#theme-list">Many themes</a></li>
-<li><a href="https://github.com/emacs-evil/evil">Evil Mode</a></li>
-</ul></li>
-<li>Install packages directly from GitHub (if desired)</li>
-<li><p>
-<a href="https://github.com/emacs-evil/evil">emulation Vim</a>
-(Extensible VI Layer)
-</p>
-<blockquote>
-<p>
-As a Linux guru and Systems Engineer, I highly recommend learning vi anyway, since it&rsquo;s the de-facto standard on every server implementation of Linux. You can count on Vi being present on the machine.
-</p>
-</blockquote></li>
-<li>LSP integration</li>
-<li><code>doom doctor</code> assists with possible configuration issues</li>
-<li>Designed with repeatability in mind (i.e. backup to your own Git repo)</li>
-</ul>
-</div>
-</div>
-<div id="outline-container-orgcb25fce" class="outline-3">
-<h3 id="orgcb25fce"><span class="section-number-3">5.5.</span> Links to More Tips</h3>
-<div class="outline-text-3" id="text-5-5">
+<div id="outline-container-org782ed7d" class="outline-3">
+<h3 id="org782ed7d"><span class="section-number-3">6.5.</span> Links to More Tips</h3>
+<div class="outline-text-3" id="text-6-5">
 <ul class="org-ul">
 <li><a href="https://yusbk.github.io/2021/04/27/doom-emacs-tips/">Doom Emacs Tips - yusbk@GitHub</a></li>
 <li><a href="https://www.masteringemacs.org/">Mastering Emacs</a>- <a href="https://www.masteringemacs.org/">Mastering Emacs (PDF Book)</a></li>
@@ -556,9 +572,9 @@ As a Linux guru and Systems Engineer, I highly recommend learning vi anyway, sin
 </div>
 </div>
 </div>
-<div id="outline-container-orgec0a051" class="outline-2">
-<h2 id="orgec0a051"><span class="section-number-2">6.</span> Advanced Tools</h2>
-<div class="outline-text-2" id="text-6">
+<div id="outline-container-org172a2eb" class="outline-2">
+<h2 id="org172a2eb"><span class="section-number-2">7.</span> Advanced Tools</h2>
+<div class="outline-text-2" id="text-7">
 <p>
 Things I likely didn&rsquo;t have time to fit into an hour, but could also be interesting&#x2026;
 </p>
@@ -569,13 +585,13 @@ Things I likely didn&rsquo;t have time to fit into an hour, but could also be in
 </ul>
 </div>
 </div>
-<div id="outline-container-org3d0cbdd" class="outline-2">
-<h2 id="org3d0cbdd"><span class="section-number-2">7.</span> Practical Intro to Elisp</h2>
-<div class="outline-text-2" id="text-7">
+<div id="outline-container-orgc3a4ddf" class="outline-2">
+<h2 id="orgc3a4ddf"><span class="section-number-2">8.</span> Practical Intro to Elisp</h2>
+<div class="outline-text-2" id="text-8">
 </div>
-<div id="outline-container-org761198c" class="outline-3">
-<h3 id="org761198c"><span class="section-number-3">7.1.</span> Change to a light theme:</h3>
-<div class="outline-text-3" id="text-7-1">
+<div id="outline-container-orgda02cad" class="outline-3">
+<h3 id="orgda02cad"><span class="section-number-3">8.1.</span> Change to a light theme:</h3>
+<div class="outline-text-3" id="text-8-1">
 <blockquote>
 <p>
 I was asked to use large text and <i>not</i> use dark backgrounds when presenting, because of smartphones.
@@ -598,9 +614,9 @@ How do we do this?  I have no example, but luckily, <b>emacs is self-documenting
 </div>
 </div>
 </div>
-<div id="outline-container-orgf988a76" class="outline-3">
-<h3 id="orgf988a76"><span class="section-number-3">7.2.</span> Enlarge text:</h3>
-<div class="outline-text-3" id="text-7-2">
+<div id="outline-container-orgc373663" class="outline-3">
+<h3 id="orgc373663"><span class="section-number-3">8.2.</span> Enlarge text:</h3>
+<div class="outline-text-3" id="text-8-2">
 <blockquote>
 <p>
 How is this done? Well, I know the scroll wheel enlarges text
@@ -707,9 +723,9 @@ So, we can set that&#x2026;
 </div>
 </div>
 </div>
-<div id="outline-container-orgb726a22" class="outline-3">
-<h3 id="orgb726a22"><span class="section-number-3">7.3.</span> Putting it together into a function:</h3>
-<div class="outline-text-3" id="text-7-3">
+<div id="outline-container-org6b727cf" class="outline-3">
+<h3 id="org6b727cf"><span class="section-number-3">8.3.</span> Putting it together into a function:</h3>
+<div class="outline-text-3" id="text-8-3">
 <div class="org-src-container">
 <pre class="src src-elisp">(<span style="color: #51afef;">defun</span> <span style="color: #c678dd;">+presentation-mode</span> (<span style="color: #ECBE7B;">&amp;optional</span> arg)
   <span style="color: #83898d;">"Custom function to ready Emacs for presenting. Enables if ARG is non-nil, else disables."</span>
@@ -762,13 +778,13 @@ Maybe there are some other things we&rsquo;d like to have it do, i.e. clean up o
 </div>
 </div>
 </div>
-<div id="outline-container-org88bd744" class="outline-2">
-<h2 id="org88bd744"><span class="section-number-2">8.</span> Org Mode</h2>
-<div class="outline-text-2" id="text-8">
+<div id="outline-container-org83595d4" class="outline-2">
+<h2 id="org83595d4"><span class="section-number-2">9.</span> Org Mode</h2>
+<div class="outline-text-2" id="text-9">
 </div>
-<div id="outline-container-org6771e5d" class="outline-3">
-<h3 id="org6771e5d"><span class="section-number-3">8.1.</span> What is it?</h3>
-<div class="outline-text-3" id="text-8-1">
+<div id="outline-container-org8f6d3b4" class="outline-3">
+<h3 id="org8f6d3b4"><span class="section-number-3">9.1.</span> What is it?</h3>
+<div class="outline-text-3" id="text-9-1">
 <ul class="org-ul">
 <li><p>
 In an nutshell
@@ -815,9 +831,9 @@ There are varrious tools to extend Org mode to Android and IOS, and to narrow it
 </ul>
 </div>
 </div>
-<div id="outline-container-orgd254a86" class="outline-3">
-<h3 id="orgd254a86"><span class="section-number-3">8.2.</span> Polyglot (literate) Programming</h3>
-<div class="outline-text-3" id="text-8-2">
+<div id="outline-container-org5c7f77e" class="outline-3">
+<h3 id="org5c7f77e"><span class="section-number-3">9.2.</span> Polyglot (literate) Programming</h3>
+<div class="outline-text-3" id="text-9-2">
 <ul class="org-ul">
 <li>Definition:
 <i>&ldquo;The practice of using multiple programming languages in a single project, system, or file, for the purpose of leveraging the strengths of each language for different tasks. This technique leverages the strengths of multiple programming languages and often yields greater efficiency in solving complex problems.&rdquo;</i></li>
@@ -825,13 +841,13 @@ There are varrious tools to extend Org mode to Android and IOS, and to narrow it
 </ul>
 </div>
 </div>
-<div id="outline-container-org97ee865" class="outline-3">
-<h3 id="org97ee865"><span class="section-number-3">8.3.</span> Sharing with others (exporting)</h3>
-<div class="outline-text-3" id="text-8-3">
+<div id="outline-container-org9383f5f" class="outline-3">
+<h3 id="org9383f5f"><span class="section-number-3">9.3.</span> Sharing with others (exporting)</h3>
+<div class="outline-text-3" id="text-9-3">
 </div>
-<div id="outline-container-orgf5a508f" class="outline-4">
-<h4 id="orgf5a508f"><span class="section-number-4">8.3.1.</span> Exporting to HTML (best)</h4>
-<div class="outline-text-4" id="text-8-3-1">
+<div id="outline-container-orgd54fbbc" class="outline-4">
+<h4 id="orgd54fbbc"><span class="section-number-4">9.3.1.</span> Exporting to HTML (best)</h4>
+<div class="outline-text-4" id="text-9-3-1">
 <ul class="org-ul">
 <li><p>
 <a href="https://github.com/fniessen/org-html-themes">readtheorg theme</a>
@@ -844,9 +860,9 @@ Link to the theme I used for this presentation&#x2026;
 </ul>
 </div>
 </div>
-<div id="outline-container-orgf668419" class="outline-4">
-<h4 id="orgf668419"><span class="section-number-4">8.3.2.</span> Ox-exporter</h4>
-<div class="outline-text-4" id="text-8-3-2">
+<div id="outline-container-org886104a" class="outline-4">
+<h4 id="org886104a"><span class="section-number-4">9.3.2.</span> Ox-exporter</h4>
+<div class="outline-text-4" id="text-9-3-2">
 <ul class="org-ul">
 <li><a href="https://orgmode.org/worg/exporters/ox-overview.html">Link to available export formats</a>
 <ul class="org-ul">
@@ -884,14 +900,14 @@ GNU Typesetting system</li>
 </div>
 </div>
 </div>
-<div id="outline-container-orga3208d8" class="outline-3">
-<h3 id="orga3208d8"><span class="section-number-3">8.4.</span> Babel</h3>
-<div class="outline-text-3" id="text-8-4">
+<div id="outline-container-org0dc50e3" class="outline-3">
+<h3 id="org0dc50e3"><span class="section-number-3">9.4.</span> Babel</h3>
+<div class="outline-text-3" id="text-9-4">
 <p>
 Setting up Babel correctly takes some tweaking&#x2026;
 First, head over to your <code>init.el</code> file and tune that for the languages and things you plan to use:
 </p>
-<pre class="example" id="org983cd71">
+<pre class="example" id="orgf5f3383">
 ;;init.el
 ;;Filtered for relevance...
 :lang
@@ -915,7 +931,7 @@ Check out <a href="https://org-babel.readthedocs.io/en/latest/">this handy guide
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Matthew Younger</p>
-<p class="date">Created: 2026-01-12 Mon 17:49</p>
+<p class="date">Created: 2026-01-13 Tue 17:59</p>
 </div>
 </body>
 </html>
