@@ -12,7 +12,6 @@ wheels/
 # Project-specific ignores
 .python-version
 coffee.csv
-coffee_analysis.html
 coffee_revised.csv
 global-coffee-health-dataset.zip
 main.py
