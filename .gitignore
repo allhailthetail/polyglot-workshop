@@ -16,6 +16,5 @@ coffee_analysis.html
 coffee_revised.csv
 global-coffee-health-dataset.zip
 main.py
-output/
 pyproject.toml
 uv.lock
